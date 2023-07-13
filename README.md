@@ -40,6 +40,6 @@ the job of restaurant waiters, such as my family.
 
 - as a user, I want to be able to add multiple/an arbitrary amount of tables to a restaurant 
 - as a user, I want to be able to see and change the state/availability of tables
-- as a user, I want to be able to assign and track the orders of each table
+- as a user, I want to be able to assign an arbitrary number of items to a table and track the orders
 - as a user, I want to be able to see a menu with prices and assign ordered items to a table based on it
 - as a user, I want to be able to view how much each table owes
