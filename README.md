@@ -38,8 +38,8 @@ the job of restaurant waiters, such as my family.
 
 ## User Stories
 
-- as a user, I want to be able to add multiple tables to a restaurant
-- as a user, I want to be able to assign and track the orders of each table
+- as a user, I want to be able to add multiple/an arbitrary amount of tables to a restaurant 
 - as a user, I want to be able to see and change the state/availability of tables
-- as a user, I want to be able to save the restaurant layout and be able to restore it later
-- as a user, I want to be able to save and view previous table history
+- as a user, I want to be able to assign and track the orders of each table
+- as a user, I want to be able to see a menu with prices and assign ordered items to a table based on it
+- as a user, I want to be able to view how much each table owes
