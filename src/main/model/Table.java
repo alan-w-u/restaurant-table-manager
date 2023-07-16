@@ -30,30 +30,44 @@ public class Table {
         }
     }
 
+    // REQUIRES: table availability is "occupied"
     // MODIFIES: this
     // EFFECTS: adds a menu item to a list of ordered item by a table
-    public void addMenuItem(MenuItem menuItem) {
-        tableOrder.add(menuItem);
+    //          and return true if successfully added and false otherwise
+    public boolean addMenuItem(MenuItem menuItem) {
+        if (this.getAvailability().equals("occupied")) {
+            tableOrder.add(menuItem);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    // REQUIRES: 0 <= i <= 3
     // EFFECTS: changes the availability of the table where
     //          0 = available        1 = occupied
     //          2 = ready to pay     3 = needs cleaning
-    public void changeAvailabilityTo(int i) {
-        this.availability = i;
+    public void changeAvailability() {
+        if (this.availability <= 2) {
+            this.availability++;
+        } else {
+            this.availability = 0;
+        }
     }
 
     // REQUIRES: i > 0
     // EFFECTS: returns the name of the ith item ordered
-    public String getNameOfItem(int i) {
-        return tableOrder.get(i).getMenuItemName();
+    public String getNameOfSpecificItem(int i) {
+        return tableOrder.get(i - 1).getMenuItemName();
     }
 
     // REQUIRES: i > 0
     // EFFECTS: returns the price of the ith item ordered
-    public Double getPriceOfItem(int i) {
-        return tableOrder.get(i).getMenuItemPrice();
+    public Double getPriceOfSpecificItem(int i) {
+        return tableOrder.get(i - 1).getMenuItemPrice();
+    }
+
+    public int getNumberOfItemsOrdered() {
+        return tableOrder.size();
     }
 
     // EFFECTS: returns the name of all items ordered
