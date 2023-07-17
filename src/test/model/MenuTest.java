@@ -9,24 +9,9 @@ public class MenuTest {
 
     Menu menu;
 
-    MenuItem m1;
-    MenuItem m2;
-    MenuItem m3;
-    MenuItem m4;
-
     @BeforeEach
     void runBefore() {
         menu = new Menu();
-
-//        m1 = new MenuItem("Fried Rice", 12.99);
-//        m2 = new MenuItem("Chow Mein", 13.99);
-//        m3 = new MenuItem("Peking Duck", 15.99);
-//        m4 = new MenuItem("Sweet and Sour Pork", 9.99);
-//
-//        testMenu.addItemToMenu(m1);
-//        testMenu.addItemToMenu(m2);
-//        testMenu.addItemToMenu(m3);
-//        testMenu.addItemToMenu(m4);
     }
 
     @Test
@@ -36,10 +21,10 @@ public class MenuTest {
 
     @Test
     void testGetSpecificItem() {
-        assertEquals(menu.getSpecificItem(1), menu.getSpecificItem(1));
-        assertEquals(menu.getSpecificItem(2), menu.getSpecificItem(2));
-        assertEquals(menu.getSpecificItem(3), menu.getSpecificItem(3));
-        assertEquals(menu.getSpecificItem(4), menu.getSpecificItem(4));
+        assertEquals(menu.m1, menu.getSpecificItem(1));
+        assertEquals(menu.m2, menu.getSpecificItem(2));
+        assertEquals(menu.m3, menu.getSpecificItem(3));
+        assertEquals(menu.m4, menu.getSpecificItem(4));
     }
 
     @Test

@@ -92,4 +92,17 @@ public class Table {
         return priceOfItemsOrdered;
     }
 
+    // EFFECTS: returns the total price of all items ordered
+    public Double getTotalPriceAllItemsOrdered() {
+        int n = 0;
+        Double total = 0.0;
+
+        for (MenuItem menuItem : tableOrder) {
+            total += this.getPriceOfSpecificItem(n + 1);
+            n++;
+        }
+
+        return total;
+    }
+
 }

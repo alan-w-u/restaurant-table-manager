@@ -120,4 +120,9 @@ class TableTest {
 
         assertEquals(list, t5.getPriceAllItemsOrdered());
     }
+
+    @Test
+    void testGetTotalPriceAllItemsOrdered() {
+        assertEquals(26.98, t5.getTotalPriceAllItemsOrdered());
+    }
 }

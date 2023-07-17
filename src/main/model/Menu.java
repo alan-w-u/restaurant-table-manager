@@ -8,13 +8,13 @@ public class Menu {
 
     private List<MenuItem> menu;
 
+    public final MenuItem m1 = new MenuItem("Fried Rice", 12.99);
+    public final MenuItem m2 = new MenuItem("Chow Mein", 13.99);
+    public final MenuItem m3 = new MenuItem("Peking Duck", 15.99);
+    public final MenuItem m4 = new MenuItem("Sweet and Sour Pork", 9.99);
+
     public Menu() {
         menu = new ArrayList<>();
-
-        MenuItem m1 = new MenuItem("Fried Rice", 12.99);
-        MenuItem m2 = new MenuItem("Chow Mein", 13.99);
-        MenuItem m3 = new MenuItem("Peking Duck", 15.99);
-        MenuItem m4 = new MenuItem("Sweet and Sour Pork", 9.99);
 
         this.addItemToMenu(m1);
         this.addItemToMenu(m2);

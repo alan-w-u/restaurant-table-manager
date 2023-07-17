@@ -20,7 +20,6 @@ public class RestaurantTableManagerApp {
         while (true) {
             chooseTable();
             askChangeAvailability();
-            order();
         }
     }
 
@@ -44,7 +43,9 @@ public class RestaurantTableManagerApp {
 
     // REQUIRES: whichTable = "Y" || "y" || "N" || "n"
     // MODIFIES: this
-    // EFFECTS: ask whether to change the availability of the current table
+    // EFFECTS: ask whether to change the availability of the current table,
+    //          if table becomes occupied or is already occupied and availability
+    //          is unchanged, then order items for the table
     private void askChangeAvailability() {
         System.out.println("Table " + whichTable + " is currently: " + currentTable.getAvailability());
         System.out.println("Do you want to change the table's availability? (Y/N)");
@@ -54,13 +55,17 @@ public class RestaurantTableManagerApp {
             currentTable.changeAvailability();
             System.out.println("The availability of Table " + whichTable
                     + " is now: " + currentTable.getAvailability());
+            order();
+        } else if ((shouldChangeAvailability.equals("N") || shouldChangeAvailability.equals("n"))
+                && currentTable.getAvailability().equals("occupied")) {
+            order();
         } else if ((shouldChangeAvailability.equals("N") || shouldChangeAvailability.equals("n"))
                 && !currentTable.getAvailability().equals("occupied")) {
             chooseTable();
         }
     }
 
-    // REQUIRES: orderItem <= menu.getNumberOfItemsOnMenu()
+    // REQUIRES: 0 <= orderItem <= menu.getNumberOfItemsOnMenu()
     // MODIFIES: this
     // EFFECTS: assigns ordered menu items to a table
     private void order() {
@@ -70,16 +75,19 @@ public class RestaurantTableManagerApp {
             System.out.println("What would you like to order? (\"0\" to exit)");
             int orderItem = scanner.nextInt();
 
-            currentTable.addMenuItem(menu.getSpecificItem(orderItem));
-            System.out.println("Added: " + menu.getNameOfSpecificItem(orderItem) + " to your order!");
-            System.out.println("Would you like to order anything else? (Y/N)");
-            String shouldOrderMore = scanner.next();
+            while (orderItem != 0) {
+                currentTable.addMenuItem(menu.getSpecificItem(orderItem));
+                System.out.println("Added: " + menu.getNameOfSpecificItem(orderItem) + " to your order!");
+                System.out.println("What else would you like to order? (\"0\" to exit)");
+                orderItem = scanner.nextInt();
 
-            if (shouldOrderMore.equals("Y") || shouldOrderMore.equals("y")) {
-                order();
-            } else {
-                System.out.println("Sounds great! Your current order is: " + currentTable.getNameAllItemsOrdered());
+                if (orderItem == 0) {
+                    break;
+                }
             }
+
+            System.out.println("Sounds great! Your current order is: " + currentTable.getNameAllItemsOrdered()
+                    + " and currently owes: $" + currentTable.getTotalPriceAllItemsOrdered());
         }
     }
 
