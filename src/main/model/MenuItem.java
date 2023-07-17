@@ -1,5 +1,6 @@
 package model;
 
+// Represents a menu item with a name and price
 public class MenuItem {
 
     private String name;

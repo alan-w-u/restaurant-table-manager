@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Represents a table at a restaurant with...
+// Represents a restaurant table with a list of orders (menu items) and availability
 public class Table {
 
     private List<MenuItem> tableOrder;
