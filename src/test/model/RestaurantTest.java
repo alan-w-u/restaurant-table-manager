@@ -57,4 +57,25 @@ public class RestaurantTest {
         r2.removeTable();
         assertEquals(2, r2.getNumberOfTables());
     }
+
+    @Test
+    void testAddAmountOfTables() {
+        r1.addAmountOfTables(2);
+        assertEquals(2, r1.getNumberOfTables());
+    }
+
+    @Test
+    void testRemoveAmountOfTables() {
+        r2.removeAmountOfTables(2);
+        assertEquals(2, r2.getNumberOfTables());
+    }
+
+    @Test
+    void testGetAllAvailability() {
+        r2.getSpecificTable(2).changeAvailability();
+        r2.getSpecificTable(3).changeAvailabilityTo(2);
+        r2.getSpecificTable(4).changeAvailabilityTo(3);
+        assertEquals("Table 1: available\nTable 2: occupied\nTable 3: ready to pay\nTable 4: needs cleaning",
+                r2.getAllAvailability());
+    }
 }

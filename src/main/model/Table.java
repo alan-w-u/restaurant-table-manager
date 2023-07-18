@@ -54,6 +54,15 @@ public class Table {
         }
     }
 
+    // REQUIRES: 0 <= availability <= 4
+    // EFFECTS: changes the availability of the table to
+    //          a specific state where
+    //          0 = available        1 = occupied
+    //          2 = ready to pay     3 = needs cleaning
+    public void changeAvailabilityTo(int availability) {
+        this.availability = availability;
+    }
+
     // REQUIRES: i > 0
     // EFFECTS: returns the name of the ith item ordered
     public String getNameOfSpecificItem(int i) {
@@ -103,6 +112,12 @@ public class Table {
         }
 
         return total;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: clears the ordered items for the table
+    public void resetOrder() {
+        tableOrder = new ArrayList<>();
     }
 
 }

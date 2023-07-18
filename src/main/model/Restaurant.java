@@ -35,4 +35,41 @@ public class Restaurant {
     public void removeTable() {
         restaurantTables.remove(this.getNumberOfTables() - 1);
     }
+
+    // REQUIRES: x > 0
+    // MODIFIES: this
+    // EFFECTS: adds a given amount of tables to a restaurant
+    //          starting from the end
+    public void addAmountOfTables(int x) {
+        for (int i = 0; i < x; i++) {
+            this.addTable();
+        }
+    }
+
+    // REQUIRES: x > 0
+    // MODIFIES: this
+    // EFFECTS: remove a given amount of tables to a restaurant
+    //          starting from the last one added
+    public void removeAmountOfTables(int x) {
+        for (int i = 0; i < x; i++) {
+            this.removeTable();
+        }
+    }
+
+    public String getAllAvailability() {
+        int n = 1;
+        String allAvailability = "";
+
+        for (Table t : restaurantTables) {
+            allAvailability += "Table " + n + ": " + t.getAvailability();
+
+            if (n != restaurantTables.size()) {
+                allAvailability += "\n";
+            }
+
+            n++;
+        }
+
+        return allAvailability;
+    }
 }

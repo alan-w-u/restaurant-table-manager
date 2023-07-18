@@ -49,14 +49,14 @@ public class Menu {
     }
 
     public String getItemsOnMenu() {
-        int n = 0;
+        int n = 1;
         String nameOfItemsOnMenu = "";
 
         for (MenuItem menuItem: this.menu) {
-            nameOfItemsOnMenu += (n + 1) + ". " + this.getNameOfSpecificItem(n + 1) + " $"
-                    + this.getPriceOfSpecificItem(n + 1);
+            nameOfItemsOnMenu += n + ". " + this.getNameOfSpecificItem(n) + " $"
+                    + this.getPriceOfSpecificItem(n);
 
-            if (n != this.getNumberOfItemsOnMenu() - 1) {
+            if (n != this.getNumberOfItemsOnMenu()) {
                 nameOfItemsOnMenu += "\n";
             }
 

@@ -79,6 +79,17 @@ class TableTest {
     }
 
     @Test
+    void testChangeAvailabilityTo() {
+        assertEquals("available", t1.getAvailability());
+        t1.changeAvailabilityTo(2);
+        assertEquals("ready to pay", t1.getAvailability());
+
+        assertEquals("occupied", t2.getAvailability());
+        t2.changeAvailabilityTo(0);
+        assertEquals("available", t2.getAvailability());
+    }
+
+    @Test
     void testAddMenuItem() {
         assertFalse(t1.addMenuItem(m1));
         assertTrue(t2.addMenuItem(m1));
@@ -124,5 +135,12 @@ class TableTest {
     @Test
     void testGetTotalPriceAllItemsOrdered() {
         assertEquals(26.98, t5.getTotalPriceAllItemsOrdered());
+    }
+
+    @Test
+    void testResetOrder() {
+        assertEquals(2, t5.getNumberOfItemsOrdered());
+        t5.resetOrder();
+        assertEquals(0, t5.getNumberOfItemsOrdered());
     }
 }
