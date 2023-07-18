@@ -18,4 +18,12 @@ public class MenuItem {
     public Double getMenuItemPrice() {
         return price;
     }
+
+    public void setMenuItemName(String name) {
+        this.name = name;
+    }
+
+    public void setMenuItemPrice(Double price) {
+        this.price = price;
+    }
 }

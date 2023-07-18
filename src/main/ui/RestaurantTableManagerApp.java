@@ -10,6 +10,7 @@ public class RestaurantTableManagerApp {
     private Restaurant restaurant;
     private Table currentTable;
     private int whichTable;
+    private int numberOfTables;
 
     Menu menu = new Menu();
 
@@ -26,9 +27,11 @@ public class RestaurantTableManagerApp {
     // MODIFIES: this
     // EFFECTS: creates a restaurant with a number of tables
     private void restaurantSetup() {
-        System.out.println("How many tables do you have in your restaurant?");
+        System.out.println("How many tables do you want in your restaurant?");
         int numberOfTables = scanner.nextInt();
+        this.numberOfTables = numberOfTables;
         restaurant = new Restaurant(numberOfTables);
+        System.out.println("There are: " + this.numberOfTables + " tables in the restaurant");
     }
 
     // REQUIRES: whichTable <= restaurant.getNumberOfTables()
@@ -38,7 +41,7 @@ public class RestaurantTableManagerApp {
         System.out.println("Which table would you like to choose to edit?");
         whichTable = scanner.nextInt();
         currentTable = restaurant.getSpecificTable(whichTable);
-        System.out.println("Currently editing table: " + whichTable);
+        System.out.println("Currently editing table: " + whichTable + "\n");
     }
 
     // REQUIRES: whichTable = "Y" || "y" || "N" || "n"
@@ -53,8 +56,7 @@ public class RestaurantTableManagerApp {
 
         if (shouldChangeAvailability.equals("Y") || shouldChangeAvailability.equals("y")) {
             currentTable.changeAvailability();
-            System.out.println("The availability of Table " + whichTable
-                    + " is now: " + currentTable.getAvailability());
+            System.out.println("Table " + whichTable + " is now: " + currentTable.getAvailability() + "\n");
             order();
         } else if ((shouldChangeAvailability.equals("N") || shouldChangeAvailability.equals("n"))
                 && currentTable.getAvailability().equals("occupied")) {
@@ -70,9 +72,10 @@ public class RestaurantTableManagerApp {
     // EFFECTS: assigns ordered menu items to a table
     private void order() {
         if (currentTable.getAvailability().equals("occupied")) {
-            System.out.println("The menu items are:");
-            System.out.println(menu.getItemsOnMenu());
-            System.out.println("What would you like to order? (\"0\" to exit)");
+            System.out.println("The menu items are:\n");
+            System.out.println(menu.getItemsOnMenu() + "\n");
+            System.out.println("What would you like to order? "
+                    + "(type an \"int\" to add item to the order, type \"0\" to exit)");
             int orderItem = scanner.nextInt();
 
             while (orderItem != 0) {
@@ -87,7 +90,7 @@ public class RestaurantTableManagerApp {
             }
 
             System.out.println("Sounds great! Your current order is: " + currentTable.getNameAllItemsOrdered()
-                    + " and currently owes: $" + currentTable.getTotalPriceAllItemsOrdered());
+                    + " and currently owes: $" + currentTable.getTotalPriceAllItemsOrdered() + "\n");
         }
     }
 
