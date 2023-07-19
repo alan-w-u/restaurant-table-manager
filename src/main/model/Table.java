@@ -101,6 +101,31 @@ public class Table {
         return priceOfItemsOrdered;
     }
 
+    public String getAllItemsOrdered() {
+        String itemsOrdered = "";
+        int count = 0;
+        List<MenuItem> seen = new ArrayList<>();
+
+        for (MenuItem m1 : tableOrder) {
+            for (MenuItem m2 : tableOrder) {
+                if (seen.contains(m1)) {
+                    break;
+                } else if (m1.getMenuItemName().equals(m2.getMenuItemName())) {
+                    count++;
+                }
+            }
+
+            if (!seen.contains(m1)) {
+                itemsOrdered += m1.getMenuItemName() + " x" + count + "\n";
+            }
+
+            seen.add(m1);
+            count = 0;
+        }
+
+        return itemsOrdered;
+    }
+
     // EFFECTS: returns the total price of all items ordered
     public Double getTotalPriceAllItemsOrdered() {
         int n = 0;

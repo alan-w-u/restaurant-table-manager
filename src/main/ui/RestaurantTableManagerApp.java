@@ -44,6 +44,7 @@ public class RestaurantTableManagerApp {
                 restaurantSetup();
             } else {
                 System.out.println(restaurant.getAllAvailability());
+                chooseAction();
             }
         }
     }
@@ -137,7 +138,7 @@ public class RestaurantTableManagerApp {
             orderBoundaries();
         } else if ((shouldChangeAvailability.equals("N") || shouldChangeAvailability.equals("n"))
                 && !currentTable.getAvailability().equals("occupied")) {
-            chooseTable();
+            chooseAction();
         }
     }
 
@@ -178,8 +179,8 @@ public class RestaurantTableManagerApp {
             }
         }
 
-        System.out.println("Sounds great! Your current order is: " + currentTable.getNameAllItemsOrdered()
-                + " and currently owe: $" + currentTable.getTotalPriceAllItemsOrdered() + "\n");
+        System.out.println("Sounds great! Your current order is:\n" + currentTable.getAllItemsOrdered()
+                + "\nYou currently owe: $" + currentTable.getTotalPriceAllItemsOrdered() + "\n");
     }
 
     // REQUIRES: shouldOrder = "Y" || "y" || "N" || "n"
@@ -197,5 +198,4 @@ public class RestaurantTableManagerApp {
             chooseTable();
         }
     }
-
 }

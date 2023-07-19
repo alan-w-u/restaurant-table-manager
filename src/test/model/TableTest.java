@@ -133,6 +133,13 @@ class TableTest {
     }
 
     @Test
+    void testGetAllItemsOrdered() {
+        t5.addMenuItem(m2);
+        t5.addMenuItem(m1);
+        assertEquals("Fried Rice x2\nChow Mein x2\n", t5.getAllItemsOrdered());
+    }
+
+    @Test
     void testGetTotalPriceAllItemsOrdered() {
         assertEquals(26.98, t5.getTotalPriceAllItemsOrdered());
     }
