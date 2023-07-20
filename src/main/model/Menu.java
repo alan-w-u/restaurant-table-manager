@@ -13,6 +13,7 @@ public class Menu {
     public final MenuItem m3 = new MenuItem("Peking Duck", 15.99);
     public final MenuItem m4 = new MenuItem("Sweet and Sour Pork", 9.99);
 
+    // EFFECTS: constructs a menu with various menu items
     public Menu() {
         menu = new ArrayList<>();
 
@@ -23,40 +24,40 @@ public class Menu {
     }
 
     public int getNumberOfItemsOnMenu() {
-        return this.menu.size();
+        return menu.size();
     }
 
     // REQUIRES: i > 0
     // EFFECTS: returns the ith item on the menu
     public MenuItem getSpecificItem(int i) {
-        return this.menu.get(i - 1);
+        return menu.get(i - 1);
     }
 
     // REQUIRES: i > 0
     // EFFECTS: returns the name of the ith item on the menu
     public String getNameOfSpecificItem(int i) {
-        return this.menu.get(i - 1).getMenuItemName();
+        return menu.get(i - 1).getMenuItemName();
     }
 
     // REQUIRES: i > 0
     // EFFECTS: returns the price of the ith item on the menu
     public Double getPriceOfSpecificItem(int i) {
-        return this.menu.get(i - 1).getMenuItemPrice();
+        return menu.get(i - 1).getMenuItemPrice();
     }
 
     public void addItemToMenu(MenuItem menuItem) {
-        this.menu.add(menuItem);
+        menu.add(menuItem);
     }
 
     public String getItemsOnMenu() {
         int n = 1;
         String nameOfItemsOnMenu = "";
 
-        for (MenuItem menuItem: this.menu) {
-            nameOfItemsOnMenu += n + ". " + this.getNameOfSpecificItem(n) + " $"
-                    + this.getPriceOfSpecificItem(n);
+        for (MenuItem menuItem: menu) {
+            nameOfItemsOnMenu += n + ". " + getNameOfSpecificItem(n) + " $"
+                    + getPriceOfSpecificItem(n);
 
-            if (n != this.getNumberOfItemsOnMenu()) {
+            if (n != getNumberOfItemsOnMenu()) {
                 nameOfItemsOnMenu += "\n";
             }
 

@@ -1,6 +1,11 @@
 package ui;
 
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 // Restaurant Table Manager application
@@ -9,13 +14,18 @@ public class RestaurantTableManagerApp {
     private Scanner scanner = new Scanner(System.in);
     private Restaurant restaurant;
     private Table currentTable;
-    private int whichTable;
+    private int whichTableNumber;
     private int numberOfTables;
+
+    private static final String JSON_LOCATION = "./data/restaurant.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     Menu menu = new Menu();
 
     // EFFECTS: runs the restaurant table manager application
     public RestaurantTableManagerApp() {
+        chooseNewOrLoad();
         chooseAction();
 
         while (true) {
@@ -24,11 +34,25 @@ public class RestaurantTableManagerApp {
         }
     }
 
-    // REQUIRES: 1 <= whatAction <= 3
+    // REQUIRES:  1 <= newOrLoad <= 2
+    // EFFECTS: chooses whether to create a new restaurant or load one in
+    private void chooseNewOrLoad() {
+        System.out.println("Do you want to:\n1. Create a new restaurant\n2. Load an existing restaurant");
+        int newOrLoad = scanner.nextInt();
+
+        if (newOrLoad == 1) {
+            createRestaurant();
+        } else if (newOrLoad == 2) {
+            loadRestaurant();
+        }
+    }
+
+    // REQUIRES: 1 <= whatAction <= 5
     // EFFECTS: chooses which action the user wants to take
     private void chooseAction() {
         System.out.println("What would you like to do?\n1. Edit the restaurant table setup\n"
-                + "2. Change availability of table\n3. Order for a table\n4. Check availability of all tables");
+                + "2. Change availability of a table\n3. Order for a table\n4. Check availability of all tables\n"
+                + "5. Save restaurant");
         int whatAction = scanner.nextInt();
 
         if (whatAction == 1) {
@@ -39,13 +63,10 @@ public class RestaurantTableManagerApp {
         } else if (whatAction == 3) {
             orderBoundaries();
         } else if (whatAction == 4) {
-            if (restaurant == null || restaurant.getNumberOfTables() == 0) {
-                System.out.println("Sorry, there are no tables in the restaurant");
-                restaurantSetup();
-            } else {
-                System.out.println(restaurant.getAllAvailability());
-                chooseAction();
-            }
+            System.out.println(restaurant.getAllAvailability() + "\n");
+            chooseAction();
+        } else if (whatAction == 5) {
+            saveRestaurant();
         }
     }
 
@@ -70,7 +91,7 @@ public class RestaurantTableManagerApp {
         int numberOfTables = scanner.nextInt();
         this.numberOfTables = numberOfTables;
         restaurant = new Restaurant(numberOfTables);
-        System.out.println("There are: " + this.numberOfTables + " tables in the restaurant");
+        System.out.println("There are: " + this.numberOfTables + " tables in the restaurant\n");
         chooseAction();
     }
 
@@ -80,11 +101,13 @@ public class RestaurantTableManagerApp {
     // EFFECTS: asks to add or remove a given amount of tables
     private void editRestaurant() {
         System.out.println("How do you want to edit the restaurant?");
-        System.out.println("There are currently: " + restaurant.getNumberOfTables() + " tables");
-        System.out.println("1. Add tables\n2. Remove tables");
+        System.out.println("There are: " + restaurant.getNumberOfTables() + " tables\n");
+        System.out.println("0. Exit\n1. Add tables\n2. Remove tables");
         int restaurantAction = scanner.nextInt();
 
-        if (restaurantAction == 1) {
+        if (restaurantAction == 0) {
+            chooseAction();
+        } else if (restaurantAction == 1) {
             System.out.println("How many tables would you like to add?");
             int amountAdd = scanner.nextInt();
             restaurant.addAmountOfTables(amountAdd);
@@ -101,15 +124,10 @@ public class RestaurantTableManagerApp {
     // MODIFIES: this
     // EFFECTS: asks and chooses which table to edit
     private void chooseTable() {
-        if (restaurant == null || restaurant.getNumberOfTables() == 0) {
-            System.out.println("The restaurant has no tables, please set up some tables");
-            restaurantSetup();
-        } else {
-            System.out.println("Which table would you like to choose to edit?");
-            whichTable = scanner.nextInt();
-            currentTable = restaurant.getSpecificTable(whichTable);
-            System.out.println("Currently editing table: " + whichTable + "\n");
-        }
+        System.out.println("Which table would you like to choose to edit?");
+        whichTableNumber = scanner.nextInt();
+        currentTable = restaurant.getSpecificTable(whichTableNumber);
+        System.out.println("Currently editing table: " + whichTableNumber + "\n");
     }
 
     // REQUIRES: whichTable = "Y" || "y" || "N" || "n"
@@ -118,26 +136,29 @@ public class RestaurantTableManagerApp {
     //          if table becomes occupied or is already occupied and availability
     //          is unchanged, then order items for the table
     private void askChangeAvailability() {
-        System.out.println("Table " + whichTable + " is currently: " + currentTable.getAvailability());
+        System.out.println("Table " + whichTableNumber + " is currently: " + currentTable.getAvailability());
         System.out.println("Do you want to change the table's availability? (Y/N)");
         String shouldChangeAvailability = scanner.next();
 
-        if ((shouldChangeAvailability.equals("Y") || shouldChangeAvailability.equals("y"))
-                && currentTable.getAvailability().equals("ready to pay")) {
+        if (shouldChangeAvailability.equals("Y") || shouldChangeAvailability.equals("y")) {
             currentTable.changeAvailability();
-            currentTable.resetOrder();
-            System.out.println("Table " + whichTable + " is now: " + currentTable.getAvailability());
-            System.out.println("Since the table is no longer in use the table order has been reset");
-        } else if ((shouldChangeAvailability.equals("Y") || shouldChangeAvailability.equals("y"))
-                && currentTable.getAvailability().equals("available")) {
-            currentTable.changeAvailability();
-            System.out.println("Table " + whichTable + " is now: " + currentTable.getAvailability() + "\n");
-            orderBoundaries();
-        } else if ((shouldChangeAvailability.equals("N") || shouldChangeAvailability.equals("n"))
-                && currentTable.getAvailability().equals("occupied")) {
-            orderBoundaries();
-        } else if ((shouldChangeAvailability.equals("N") || shouldChangeAvailability.equals("n"))
-                && !currentTable.getAvailability().equals("occupied")) {
+            System.out.println("Table " + whichTableNumber + " is now: " + currentTable.getAvailability());
+
+            if (currentTable.getAvailability().equals("available")) {
+                System.out.println("Since the table is no longer in use the table order has been reset");
+                currentTable.resetOrder();
+                chooseAction();
+            } else if (currentTable.getAvailability().equals("occupied")) {
+                System.out.println("Would you like to begin an order for this table? (Y/N)");
+                String shouldOrder = scanner.next();
+
+                if (shouldOrder.equals("Y") || shouldOrder.equals("y")) {
+                    orderBoundaries();
+                } else if (shouldOrder.equals("N") || shouldOrder.equals("n")) {
+                    chooseAction();
+                }
+            }
+        } else if (shouldChangeAvailability.equals("N") || shouldChangeAvailability.equals("n")) {
             chooseAction();
         }
     }
@@ -145,10 +166,7 @@ public class RestaurantTableManagerApp {
     // MODIFIES: this
     // EFFECTS: sees if an order can be made and executes the appropriate branch
     private void orderBoundaries() {
-        if (restaurant == null || restaurant.getNumberOfTables() == 0) {
-            System.out.println("The restaurant has no tables, please set up some tables");
-            restaurantSetup();
-        } else if (currentTable == null) {
+        if (currentTable == null) {
             chooseTable();
             orderBoundaries();
         } else if (currentTable.getAvailability().equals("occupied")) {
@@ -179,7 +197,7 @@ public class RestaurantTableManagerApp {
             }
         }
 
-        System.out.println("Sounds great! Your current order is:\n" + currentTable.getAllItemsOrdered()
+        System.out.println("Sounds great! Your current order is:\n\n" + currentTable.getAllItemsOrdered()
                 + "\nYou currently owe: $" + currentTable.getTotalPriceAllItemsOrdered() + "\n");
     }
 
@@ -196,6 +214,28 @@ public class RestaurantTableManagerApp {
             orderBoundaries();
         } else if (shouldOrder.equals("N") || shouldOrder.equals("n")) {
             chooseTable();
+        }
+    }
+
+    // EFFECTS: saves the restaurant to file
+    private void saveRestaurant() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(restaurant);
+            jsonWriter.close();
+            System.out.println("Saved restaurant to " + JSON_LOCATION);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_LOCATION);
+        }
+    }
+
+    // EFFECTS: loads the restaurant from file
+    private void loadRestaurant() {
+        try {
+            restaurant = jsonReader.read();
+            System.out.println("Loaded restaurant from " + JSON_LOCATION);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_LOCATION);
         }
     }
 }

@@ -3,12 +3,17 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import persistence.Writable;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 // Represents a restaurant table with a list of orders (menu items) and availability
-public class Table {
+public class Table implements Writable {
 
     private List<MenuItem> tableOrder;
     private int availability;
 
+    // EFFECTS: constructs a table with no orders and is available
     public Table() {
         tableOrder = new ArrayList<>();
         availability = 0;
@@ -35,7 +40,7 @@ public class Table {
     // EFFECTS: adds a menu item to a list of ordered item by a table
     //          and return true if successfully added and false otherwise
     public boolean addMenuItem(MenuItem menuItem) {
-        if (this.getAvailability().equals("occupied")) {
+        if (getAvailability().equals("occupied")) {
             tableOrder.add(menuItem);
             return true;
         } else {
@@ -47,20 +52,20 @@ public class Table {
     //          0 = available        1 = occupied
     //          2 = ready to pay     3 = needs cleaning
     public void changeAvailability() {
-        if (this.availability <= 2) {
-            this.availability++;
+        if (availability <= 2) {
+            availability++;
         } else {
-            this.availability = 0;
+            availability = 0;
         }
     }
 
-    // REQUIRES: 0 <= availability <= 4
+    // REQUIRES: 0 <= availability <= 3
     // EFFECTS: changes the availability of the table to
     //          a specific state where
     //          0 = available        1 = occupied
     //          2 = ready to pay     3 = needs cleaning
     public void changeAvailabilityTo(int availability) {
-        this.availability = availability;
+        availability = availability;
     }
 
     // REQUIRES: i > 0
@@ -101,6 +106,7 @@ public class Table {
         return priceOfItemsOrdered;
     }
 
+    // EFFECTS: returns a unique item and how many times it was ordered
     public String getAllItemsOrdered() {
         String itemsOrdered = "";
         int count = 0;
@@ -132,7 +138,7 @@ public class Table {
         Double total = 0.0;
 
         for (MenuItem menuItem : tableOrder) {
-            total += this.getPriceOfSpecificItem(n + 1);
+            total += getPriceOfSpecificItem(n + 1);
             n++;
         }
 
@@ -145,4 +151,22 @@ public class Table {
         tableOrder = new ArrayList<>();
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("table order", tableOrderToJson());
+        json.put("availability", availability);
+        return json;
+    }
+
+    // EFFECTS: returns things in this Restaurant as a JSON array
+    private JSONArray tableOrderToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (MenuItem m : tableOrder) {
+            jsonArray.put(m.toJson());
+        }
+
+        return jsonArray;
+    }
 }

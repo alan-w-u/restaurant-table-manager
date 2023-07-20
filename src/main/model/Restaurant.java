@@ -1,23 +1,31 @@
 package model;
 
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import persistence.Writable;
+import org.json.JSONObject;
+
 // Represents a restaurant with tables
-public class Restaurant {
+public class Restaurant implements Writable {
 
     private List<Table> restaurantTables;
+    private int numberOfTables;
 
-    public Restaurant(int x) {
+    // EFFECTS: constructs a restaurant with a given amount of tables
+    public Restaurant(int numberOfTables) {
         restaurantTables = new ArrayList<>();
+        this.numberOfTables = numberOfTables;
 
-        for (int i = 0; i < x; i++) {
+        for (int i = 0; i < numberOfTables; i++) {
             restaurantTables.add(new Table());
         }
     }
 
     public int getNumberOfTables() {
-        return restaurantTables.size();
+        return numberOfTables;
     }
 
     // REQUIRES: i > 0
@@ -30,10 +38,12 @@ public class Restaurant {
     // EFFECTS: adds another table to the restaurant
     public void addTable() {
         restaurantTables.add(new Table());
+        numberOfTables++;
     }
 
     public void removeTable() {
         restaurantTables.remove(this.getNumberOfTables() - 1);
+        numberOfTables--;
     }
 
     // REQUIRES: x > 0
@@ -42,7 +52,7 @@ public class Restaurant {
     //          starting from the end
     public void addAmountOfTables(int x) {
         for (int i = 0; i < x; i++) {
-            this.addTable();
+            addTable();
         }
     }
 
@@ -52,7 +62,7 @@ public class Restaurant {
     //          starting from the last one added
     public void removeAmountOfTables(int x) {
         for (int i = 0; i < x; i++) {
-            this.removeTable();
+            removeTable();
         }
     }
 
@@ -69,7 +79,13 @@ public class Restaurant {
 
             n++;
         }
-
         return allAvailability;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("number of tables", numberOfTables);
+        return json;
     }
 }

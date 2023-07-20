@@ -1,11 +1,15 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents a menu item with a name and price
-public class MenuItem {
+public class MenuItem implements Writable {
 
     private String name;
     private Double price;
 
+    // EFFECTS: constructs a menu item with a name and price
     public MenuItem(String name, Double price) {
         this.name = name;
         this.price = price;
@@ -25,5 +29,13 @@ public class MenuItem {
 
     public void setMenuItemPrice(Double price) {
         this.price = price;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("price", price);
+        return json;
     }
 }

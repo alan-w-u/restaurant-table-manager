@@ -43,3 +43,8 @@ the job of restaurant waiters, such as my family.
 - as a user, I want to be able to assign an arbitrary number of items to a table and track the orders
 - as a user, I want to be able to see a menu with prices and assign ordered items to a table based on it
 - as a user, I want to be able to view how much each table owes
+
+- as a user, I want to be able to save the restaurant setup (number of tables and their state) and previous orders to file (if I choose to)
+- as a user, I want to be able to load the restaurant setup from file (if I choose to)
+
+*uses JsonSerializationDemo-master provided by CPSC 210 edX as reference for the JSON writing/reading functionality*
