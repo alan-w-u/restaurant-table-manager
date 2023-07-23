@@ -32,6 +32,7 @@ public class MenuItem implements Writable {
     }
 
     @Override
+    // EFFECTS: converts MenuItem information to JSON format
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", name);

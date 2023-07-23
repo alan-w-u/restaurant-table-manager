@@ -43,27 +43,27 @@ public class JsonReader {
     private Restaurant parseRestaurant(JSONObject jsonObject) {
         int numberOfTables = jsonObject.getInt("number of tables");
         Restaurant r = new Restaurant(numberOfTables);
-//        addTables(r, jsonObject);
+        addTables(r, jsonObject);
         return r;
     }
 
-//    // MODIFIES: r
-//    // EFFECTS: parses tables from JSON object and adds them to Restaurant
-//    private void addTables(Restaurant r, JSONObject jsonObject) {
-//        JSONArray jsonArray = jsonObject.getJSONArray("table order");
-//
-//        for (Object json : jsonArray) {
-//            JSONObject nextThingy = (JSONObject) json;
-//            addThingy(r, nextThingy);
-//        }
-//    }
-//
-//    // MODIFIES: r
-//    // EFFECTS: parses thingy from JSON object and adds it to workroom
-//    private void addThingy(WorkRoom wr, JSONObject jsonObject) {
-//        String name = jsonObject.getString("name");
-//        Category category = Category.valueOf(jsonObject.getString("category"));
-//        Thingy thingy = new Thingy(name, category);
-//        wr.addThingy(thingy);
-//    }
+    // MODIFIES: r
+    // EFFECTS: parses tables from JSON object and adds them to Restaurant
+    private void addTables(Restaurant r, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("table status");
+
+        for (Object json : jsonArray) {
+            JSONObject nextTable = (JSONObject) json;
+            addTable(r, nextTable);
+        }
+    }
+
+    // MODIFIES: r
+    // EFFECTS: parses thingy from JSON object and adds it to Restaurant
+    private void addTable(Restaurant r, JSONObject jsonObject) {
+        int availability = jsonObject.getInt("availability");
+        Table t = new Table();
+        t.changeAvailabilityTo(availability);
+//        r.addTable();
+    }
 }

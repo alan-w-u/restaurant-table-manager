@@ -152,15 +152,16 @@ public class Table implements Writable {
     }
 
     @Override
+    // EFFECTS: converts Table information to JSON format
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("table order", tableOrderToJson());
+        json.put("table order", menuItemToJson());
         json.put("availability", availability);
         return json;
     }
 
-    // EFFECTS: returns things in this Restaurant as a JSON array
-    private JSONArray tableOrderToJson() {
+    // EFFECTS: returns MenuItems in Restaurant as a JSON array
+    private JSONArray menuItemToJson() {
         JSONArray jsonArray = new JSONArray();
 
         for (MenuItem m : tableOrder) {

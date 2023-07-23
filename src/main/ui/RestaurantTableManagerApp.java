@@ -24,7 +24,14 @@ public class RestaurantTableManagerApp {
     Menu menu = new Menu();
 
     // EFFECTS: runs the restaurant table manager application
-    public RestaurantTableManagerApp() {
+    public RestaurantTableManagerApp() throws  FileNotFoundException {
+        jsonWriter = new JsonWriter(JSON_LOCATION);
+        jsonReader = new JsonReader(JSON_LOCATION);
+        restaurantTableManagerRun();
+    }
+
+    // EFFECTS: runs the restaurant table manager application
+    public void restaurantTableManagerRun() {
         chooseNewOrLoad();
         chooseAction();
 
@@ -47,26 +54,30 @@ public class RestaurantTableManagerApp {
         }
     }
 
-    // REQUIRES: 1 <= whatAction <= 5
+    // REQUIRES: 0 <= whatAction <= 5
     // EFFECTS: chooses which action the user wants to take
     private void chooseAction() {
-        System.out.println("What would you like to do?\n1. Edit the restaurant table setup\n"
+        System.out.println("What would you like to do?\n0. Exit application\n1. Edit the restaurant table setup\n"
                 + "2. Change availability of a table\n3. Order for a table\n4. Check availability of all tables\n"
                 + "5. Save restaurant");
         int whatAction = scanner.nextInt();
 
-        if (whatAction == 1) {
+        if (whatAction == 0) {
+            System.exit(0);
+        } else if (whatAction == 1) {
             restaurantSetup();
         } else if (whatAction == 2) {
             chooseTable();
             askChangeAvailability();
         } else if (whatAction == 3) {
+            chooseTable();
             orderBoundaries();
         } else if (whatAction == 4) {
             System.out.println(restaurant.getAllAvailability() + "\n");
             chooseAction();
         } else if (whatAction == 5) {
             saveRestaurant();
+            chooseAction();
         }
     }
 
@@ -166,13 +177,12 @@ public class RestaurantTableManagerApp {
     // MODIFIES: this
     // EFFECTS: sees if an order can be made and executes the appropriate branch
     private void orderBoundaries() {
-        if (currentTable == null) {
-            chooseTable();
-            orderBoundaries();
-        } else if (currentTable.getAvailability().equals("occupied")) {
+        if (currentTable.getAvailability().equals("occupied")) {
             order();
+            chooseAction();
         } else if (!currentTable.getAvailability().equals("occupied")) {
             askForceOrder();
+            chooseAction();
         }
     }
 
@@ -213,7 +223,7 @@ public class RestaurantTableManagerApp {
             currentTable.changeAvailabilityTo(1);
             orderBoundaries();
         } else if (shouldOrder.equals("N") || shouldOrder.equals("n")) {
-            chooseTable();
+            chooseAction();
         }
     }
 

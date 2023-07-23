@@ -1,11 +1,11 @@
 package model;
 
+import org.json.JSONArray;
 import persistence.Writable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import persistence.Writable;
 import org.json.JSONObject;
 
 // Represents a restaurant with tables
@@ -66,6 +66,7 @@ public class Restaurant implements Writable {
         }
     }
 
+    // EFFECTS: returns numbered tables with their corresponding availability
     public String getAllAvailability() {
         int n = 1;
         String allAvailability = "";
@@ -83,9 +84,22 @@ public class Restaurant implements Writable {
     }
 
     @Override
+    // EFFECTS: converts Restaurant information to JSON format
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("number of tables", numberOfTables);
+        json.put("table status", tableToJson());
         return json;
+    }
+
+    // EFFECTS: returns Tables in Restaurant as a JSON array
+    private JSONArray tableToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Table t : restaurantTables) {
+            jsonArray.put(t.toJson());
+        }
+
+        return jsonArray;
     }
 }

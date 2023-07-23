@@ -49,6 +49,7 @@ public class Menu {
         menu.add(menuItem);
     }
 
+    // EFFECTS: returns numbered menu item with their corresponding price
     public String getItemsOnMenu() {
         int n = 1;
         String nameOfItemsOnMenu = "";
