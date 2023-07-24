@@ -48,4 +48,9 @@ public class MenuTest {
         assertEquals("1. Fried Rice $12.99\n2. Chow Mein $13.99\n3. Peking Duck $15.99\n" +
                         "4. Sweet and Sour Pork $9.99", menu.getItemsOnMenu());
     }
+    @Test
+    void testGetMenuItemsByString() {
+        assertEquals(menu.m1, menu.getMenuItemsByString("Fried Rice"));
+        assertEquals(menu.m2, menu.getMenuItemsByString("Chow Mein"));
+    }
 }

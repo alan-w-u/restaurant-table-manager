@@ -41,8 +41,7 @@ public class JsonReader {
 
     // EFFECTS: parses Restaurant from JSON object and returns it
     private Restaurant parseRestaurant(JSONObject jsonObject) {
-        int numberOfTables = jsonObject.getInt("number of tables");
-        Restaurant r = new Restaurant(numberOfTables);
+        Restaurant r = new Restaurant(0);
         addTables(r, jsonObject);
         return r;
     }
@@ -50,7 +49,7 @@ public class JsonReader {
     // MODIFIES: r
     // EFFECTS: parses tables from JSON object and adds them to Restaurant
     private void addTables(Restaurant r, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("table status");
+        JSONArray jsonArray = jsonObject.getJSONArray("table states");
 
         for (Object json : jsonArray) {
             JSONObject nextTable = (JSONObject) json;
@@ -59,11 +58,19 @@ public class JsonReader {
     }
 
     // MODIFIES: r
-    // EFFECTS: parses thingy from JSON object and adds it to Restaurant
+    // EFFECTS: parses Table from JSON object and adds it to Restaurant
     private void addTable(Restaurant r, JSONObject jsonObject) {
         int availability = jsonObject.getInt("availability");
+//        JSONArray jsonArray = jsonObject.getJSONArray("table order");
+        System.out.println(availability);
         Table t = new Table();
         t.changeAvailabilityTo(availability);
-//        r.addTable();
+        r.addSpecificTable(t);
+        Menu menu = new Menu();
+
+//        for (Object json : jsonArray) {
+//            String name = jsonObject.getString("name");
+//            t.addMenuItem(menu.getMenuItemsByString(name));
+//        }
     }
 }

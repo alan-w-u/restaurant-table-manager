@@ -67,4 +67,15 @@ public class Menu {
 
         return nameOfItemsOnMenu;
     }
+
+    // EFFECTS: returns a MenuItem of given String
+    public MenuItem getMenuItemsByString(String name) {
+        for (MenuItem m : menu) {
+            if (m.getMenuItemName().equals(name)) {
+                return m;
+            }
+        }
+
+        return null;
+    }
 }

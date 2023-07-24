@@ -65,7 +65,7 @@ public class Table implements Writable {
     //          0 = available        1 = occupied
     //          2 = ready to pay     3 = needs cleaning
     public void changeAvailabilityTo(int availability) {
-        availability = availability;
+        this.availability = availability;
     }
 
     // REQUIRES: i > 0

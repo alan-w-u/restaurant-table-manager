@@ -12,12 +12,10 @@ import org.json.JSONObject;
 public class Restaurant implements Writable {
 
     private List<Table> restaurantTables;
-    private int numberOfTables;
 
     // EFFECTS: constructs a restaurant with a given amount of tables
     public Restaurant(int numberOfTables) {
         restaurantTables = new ArrayList<>();
-        this.numberOfTables = numberOfTables;
 
         for (int i = 0; i < numberOfTables; i++) {
             restaurantTables.add(new Table());
@@ -25,7 +23,7 @@ public class Restaurant implements Writable {
     }
 
     public int getNumberOfTables() {
-        return numberOfTables;
+        return restaurantTables.size();
     }
 
     // REQUIRES: i > 0
@@ -38,12 +36,10 @@ public class Restaurant implements Writable {
     // EFFECTS: adds another table to the restaurant
     public void addTable() {
         restaurantTables.add(new Table());
-        numberOfTables++;
     }
 
     public void removeTable() {
         restaurantTables.remove(this.getNumberOfTables() - 1);
-        numberOfTables--;
     }
 
     // REQUIRES: x > 0
@@ -64,6 +60,12 @@ public class Restaurant implements Writable {
         for (int i = 0; i < x; i++) {
             removeTable();
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds a specific Table state to the restaurant
+    public void addSpecificTable(Table t) {
+        restaurantTables.add(t);
     }
 
     // EFFECTS: returns numbered tables with their corresponding availability
@@ -87,8 +89,7 @@ public class Restaurant implements Writable {
     // EFFECTS: converts Restaurant information to JSON format
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("number of tables", numberOfTables);
-        json.put("table status", tableToJson());
+        json.put("table states", tableToJson());
         return json;
     }
 
