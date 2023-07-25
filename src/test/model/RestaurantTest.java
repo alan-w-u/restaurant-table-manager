@@ -11,19 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RestaurantTest {
 
+    Menu menu;
+
     Restaurant r1;
     Restaurant r2;
 
-    MenuItem m1;
-    MenuItem m2;
-
     @BeforeEach
     void runBefore() {
+        menu = new Menu();
+
         r1 = new Restaurant(0);
         r2 = new Restaurant(4);
-
-        m1 = new MenuItem("Fried Rice", 12.99);
-        m2 = new MenuItem("Chow Mein", 13.99);
     }
 
     @Test
@@ -37,8 +35,8 @@ public class RestaurantTest {
         r2.getSpecificTable(2).changeAvailability();
         r2.getSpecificTable(3).changeAvailability();
 
-        r2.getSpecificTable(2).addMenuItem(m1);
-        r2.getSpecificTable(3).addMenuItem(m2);
+        r2.getSpecificTable(2).addMenuItem(menu.m1);
+        r2.getSpecificTable(3).addMenuItem(menu.m2);
 
         assertEquals("Fried Rice", r2.getSpecificTable(2).getNameOfSpecificItem(1));
         assertEquals(13.99, r2.getSpecificTable(3).getPriceOfSpecificItem(1));
@@ -92,12 +90,12 @@ public class RestaurantTest {
     void testGetAllOrders() {
         r1.addTable();
         r1.getSpecificTable(1).changeAvailabilityTo(1);
-        r1.getSpecificTable(1).addMenuItem(m1);
+        r1.getSpecificTable(1).addMenuItem(menu.m1);
         assertEquals("Table 1:\nFried Rice x1", r1.getAllOrders());
 
         r2.getSpecificTable(2).changeAvailabilityTo(1);
-        r2.getSpecificTable(2).addMenuItem(m1);
-        r2.getSpecificTable(2).addMenuItem(m2);
+        r2.getSpecificTable(2).addMenuItem(menu.m1);
+        r2.getSpecificTable(2).addMenuItem(menu.m2);
         assertEquals("Table 1: no orders\n\nTable 2:\nFried Rice x1\nChow Mein x1\n\nTable 3: no orders\n\n"
                 + "Table 4: no orders", r2.getAllOrders());
     }

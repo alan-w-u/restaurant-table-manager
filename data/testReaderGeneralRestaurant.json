@@ -1,0 +1,19 @@
+{"table states": [
+    {
+        "table order": [],
+        "availability": 0
+    },
+    {
+        "table order": [
+            {
+                "price": 12.99,
+                "name": "Fried Rice"
+            },
+            {
+                "price": 13.99,
+                "name": "Chow Mein"
+            }
+        ],
+        "availability": 1
+    }
+]}

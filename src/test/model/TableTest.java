@@ -10,17 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TableTest {
 
+    Menu menu;
+
     Table t1;
     Table t2;
     Table t3;
     Table t4;
     Table t5;
 
-    MenuItem m1;
-    MenuItem m2;
-
     @BeforeEach
     void runBefore() {
+        menu = new Menu();
+
         t1 = new Table();
 
         t2 = new Table();
@@ -35,13 +36,10 @@ class TableTest {
         t4.changeAvailability();
         t4.changeAvailability();
 
-        m1 = new MenuItem("Fried Rice", 12.99);
-        m2 = new MenuItem("Chow Mein", 13.99);
-
         t5 = new Table();
         t5.changeAvailability();
-        t5.addMenuItem(m1);
-        t5.addMenuItem(m2);
+        t5.addMenuItem(menu.m1);
+        t5.addMenuItem(menu.m2);
     }
 
     @Test
@@ -91,10 +89,10 @@ class TableTest {
 
     @Test
     void testAddMenuItem() {
-        assertFalse(t1.addMenuItem(m1));
-        assertTrue(t2.addMenuItem(m1));
-        assertFalse(t3.addMenuItem(m1));
-        assertFalse(t4.addMenuItem(m1));
+        assertFalse(t1.addMenuItem(menu.m1));
+        assertTrue(t2.addMenuItem(menu.m1));
+        assertFalse(t3.addMenuItem(menu.m1));
+        assertFalse(t4.addMenuItem(menu.m1));
     }
 
     @Test
@@ -140,8 +138,8 @@ class TableTest {
 
     @Test
     void testGetAllItemsOrdered() {
-        t5.addMenuItem(m2);
-        t5.addMenuItem(m1);
+        t5.addMenuItem(menu.m2);
+        t5.addMenuItem(menu.m1);
         assertEquals("Fried Rice x2\nChow Mein x2", t5.getAllItemsOrdered());
     }
 
