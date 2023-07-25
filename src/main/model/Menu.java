@@ -54,7 +54,7 @@ public class Menu {
         int n = 1;
         String nameOfItemsOnMenu = "";
 
-        for (MenuItem menuItem: menu) {
+        for (MenuItem m: menu) {
             nameOfItemsOnMenu += n + ". " + getNameOfSpecificItem(n) + " $"
                     + getPriceOfSpecificItem(n);
 

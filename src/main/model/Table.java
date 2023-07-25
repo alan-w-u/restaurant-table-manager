@@ -124,12 +124,12 @@ public class Table implements Writable {
     // EFFECTS: returns a unique item and how many times it was ordered
     public String getAllItemsOrdered() {
         String itemsOrdered = "";
-        int count = 0;
         int n = 1;
         int uniqueItems = getUniqueItems();
         List<MenuItem> seen = new ArrayList<>();
 
         for (MenuItem m1 : tableOrder) {
+            int count = 0;
             for (MenuItem m2 : tableOrder) {
                 if (seen.contains(m1)) {
                     break;
@@ -140,12 +140,12 @@ public class Table implements Writable {
 
             if (!seen.contains(m1) && n != uniqueItems) {
                 itemsOrdered += m1.getMenuItemName() + " x" + count + "\n";
-            } else if (!seen.contains(m1) && n == uniqueItems) {
+            }
+            if (!seen.contains(m1) && n == uniqueItems) {
                 itemsOrdered += m1.getMenuItemName() + " x" + count;
             }
 
             seen.add(m1);
-            count = 0;
             n++;
         }
 

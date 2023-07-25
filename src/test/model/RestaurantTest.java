@@ -88,10 +88,16 @@ public class RestaurantTest {
 
     @Test
     void testGetAllOrders() {
+        assertEquals("", r1.getAllOrders());
         r1.addTable();
+        r1.addTable();
+        assertEquals("Table 1: no orders\n\nTable 2: no orders", r1.getAllOrders());
+        r1.getSpecificTable(2).changeAvailabilityTo(1);
+        r1.getSpecificTable(2).addMenuItem(menu.m1);
+        assertEquals("Table 1: no orders\n\nTable 2:\nFried Rice x1", r1.getAllOrders());
         r1.getSpecificTable(1).changeAvailabilityTo(1);
-        r1.getSpecificTable(1).addMenuItem(menu.m1);
-        assertEquals("Table 1:\nFried Rice x1", r1.getAllOrders());
+        r1.getSpecificTable(1).addMenuItem(menu.m2);
+        assertEquals("Table 1:\nChow Mein x1\n\nTable 2:\nFried Rice x1", r1.getAllOrders());
 
         r2.getSpecificTable(2).changeAvailabilityTo(1);
         r2.getSpecificTable(2).addMenuItem(menu.m1);

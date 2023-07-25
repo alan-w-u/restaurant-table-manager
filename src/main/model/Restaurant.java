@@ -93,11 +93,14 @@ public class Restaurant implements Writable {
         for (Table t : restaurantTables) {
             if (t.getTableOrder().isEmpty() && n != restaurantTables.size()) {
                 allOrders += "Table " + n + ": no orders\n";
-            } else if (t.getTableOrder().isEmpty() && n == restaurantTables.size()) {
+            }
+            if (t.getTableOrder().isEmpty() && n == restaurantTables.size()) {
                 allOrders += "Table " + n + ": no orders";
-            } else if (n != restaurantTables.size()) {
+            }
+            if (!t.getTableOrder().isEmpty() && n != restaurantTables.size()) {
                 allOrders += "Table " + n + ":\n" + t.getAllItemsOrdered() + "\n";
-            } else {
+            }
+            if (!t.getTableOrder().isEmpty() && n == restaurantTables.size()) {
                 allOrders += "Table " + n + ":\n" + t.getAllItemsOrdered();
             }
 
