@@ -38,26 +38,28 @@ public class Restaurant implements Writable {
         restaurantTables.add(new Table());
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes the last table of the restaurant
     public void removeTable() {
         restaurantTables.remove(this.getNumberOfTables() - 1);
     }
 
-    // REQUIRES: x > 0
+    // REQUIRES: n > 0
     // MODIFIES: this
     // EFFECTS: adds a given amount of tables to a restaurant
     //          starting from the end
-    public void addAmountOfTables(int x) {
-        for (int i = 0; i < x; i++) {
+    public void addAmountOfTables(int n) {
+        for (int i = 0; i < n; i++) {
             addTable();
         }
     }
 
-    // REQUIRES: x > 0
+    // REQUIRES: n > 0
     // MODIFIES: this
     // EFFECTS: remove a given amount of tables to a restaurant
     //          starting from the last one added
-    public void removeAmountOfTables(int x) {
-        for (int i = 0; i < x; i++) {
+    public void removeAmountOfTables(int n) {
+        for (int i = 0; i < n; i++) {
             removeTable();
         }
     }
@@ -82,6 +84,7 @@ public class Restaurant implements Writable {
 
             n++;
         }
+
         return allAvailability;
     }
 
@@ -110,6 +113,7 @@ public class Restaurant implements Writable {
 
             n++;
         }
+
         return allOrders;
     }
 

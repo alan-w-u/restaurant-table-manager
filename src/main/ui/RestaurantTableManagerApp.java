@@ -106,14 +106,15 @@ public class RestaurantTableManagerApp {
         chooseAction();
     }
 
-    // REQUIRES: amountAdd > 0
+    // REQUIRES: 0 <= restaurantAction <= 3
+    //           amountAdd > 0
     //           amountRemove <= restaurant.getNumberOfTables()
     // MODIFIES: this
     // EFFECTS: asks to add or remove a given amount of tables
     private void editRestaurant() {
         System.out.println("How do you want to edit the restaurant?");
         System.out.println("There are: " + restaurant.getNumberOfTables() + " tables");
-        System.out.println("0. Exit\n1. Add tables\n2. Remove tables");
+        System.out.println("0. Exit\n1. Add tables\n2. Remove tables\n3. Load an existing restaurant");
         int restaurantAction = scanner.nextInt();
 
         if (restaurantAction == 0) {
@@ -127,6 +128,9 @@ public class RestaurantTableManagerApp {
             System.out.println("How many tables would you like to remove?");
             int amountRemove = scanner.nextInt();
             restaurant.removeAmountOfTables(amountRemove);
+            chooseAction();
+        } else if (restaurantAction == 3) {
+            loadRestaurant();
             chooseAction();
         }
     }
