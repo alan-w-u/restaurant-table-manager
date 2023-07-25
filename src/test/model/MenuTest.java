@@ -52,5 +52,6 @@ public class MenuTest {
     void testGetMenuItemsByString() {
         assertEquals(menu.m1, menu.getMenuItemsByString("Fried Rice"));
         assertEquals(menu.m2, menu.getMenuItemsByString("Chow Mein"));
+        assertNull(menu.getMenuItemsByString("Raw Chicken"));
     }
 }

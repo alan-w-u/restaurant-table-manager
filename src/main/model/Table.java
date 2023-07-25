@@ -106,10 +106,27 @@ public class Table implements Writable {
         return priceOfItemsOrdered;
     }
 
+    // EFFECTS: returns the number of unique items ordered
+    public int getUniqueItems() {
+        int uniqueItems = 0;
+        List<MenuItem> seen = new ArrayList<>();
+
+        for (MenuItem m : tableOrder) {
+            if (!seen.contains(m)) {
+                uniqueItems++;
+                seen.add(m);
+            }
+        }
+
+        return uniqueItems;
+    }
+
     // EFFECTS: returns a unique item and how many times it was ordered
     public String getAllItemsOrdered() {
         String itemsOrdered = "";
         int count = 0;
+        int n = 1;
+        int uniqueItems = getUniqueItems();
         List<MenuItem> seen = new ArrayList<>();
 
         for (MenuItem m1 : tableOrder) {
@@ -121,12 +138,15 @@ public class Table implements Writable {
                 }
             }
 
-            if (!seen.contains(m1)) {
+            if (!seen.contains(m1) && n != uniqueItems) {
                 itemsOrdered += m1.getMenuItemName() + " x" + count + "\n";
+            } else if (!seen.contains(m1) && n == uniqueItems) {
+                itemsOrdered += m1.getMenuItemName() + " x" + count;
             }
 
             seen.add(m1);
             count = 0;
+            n++;
         }
 
         return itemsOrdered;

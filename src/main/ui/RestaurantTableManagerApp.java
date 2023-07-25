@@ -14,7 +14,7 @@ public class RestaurantTableManagerApp {
     private Scanner scanner = new Scanner(System.in);
     private Restaurant restaurant;
     private Table currentTable;
-    private int whichTableNumber;
+    private int currentTableNumber;
     private int numberOfTables;
 
     private static final String JSON_LOCATION = "./data/restaurant.json";
@@ -37,7 +37,7 @@ public class RestaurantTableManagerApp {
 
         while (true) {
             chooseTable();
-            askChangeAvailability();
+            changeAvailability();
         }
     }
 
@@ -58,7 +58,7 @@ public class RestaurantTableManagerApp {
     // EFFECTS: chooses which action the user wants to take
     private void chooseAction() {
         System.out.println("What would you like to do?\n0. Exit application\n1. Edit the restaurant table setup\n"
-                + "2. Change availability of a table\n3. Order for a table\n4. Check availability of all tables\n"
+                + "2. Edit a table\n3. Check availability of all tables\n4. Check orders of all tables\n"
                 + "5. Save restaurant");
         int whatAction = scanner.nextInt();
 
@@ -68,12 +68,12 @@ public class RestaurantTableManagerApp {
             restaurantSetup();
         } else if (whatAction == 2) {
             chooseTable();
-            askChangeAvailability();
+            editTable();
         } else if (whatAction == 3) {
-            chooseTable();
-            orderBoundaries();
-        } else if (whatAction == 4) {
             System.out.println(restaurant.getAllAvailability() + "\n");
+            chooseAction();
+        } else if (whatAction == 4) {
+            System.out.println(restaurant.getAllOrders() + "\n");
             chooseAction();
         } else if (whatAction == 5) {
             saveRestaurant();
@@ -112,7 +112,7 @@ public class RestaurantTableManagerApp {
     // EFFECTS: asks to add or remove a given amount of tables
     private void editRestaurant() {
         System.out.println("How do you want to edit the restaurant?");
-        System.out.println("There are: " + restaurant.getNumberOfTables() + " tables\n");
+        System.out.println("There are: " + restaurant.getNumberOfTables() + " tables");
         System.out.println("0. Exit\n1. Add tables\n2. Remove tables");
         int restaurantAction = scanner.nextInt();
 
@@ -131,46 +131,57 @@ public class RestaurantTableManagerApp {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: asks to change availability or order for a table
+    private void editTable() {
+        System.out.println("Table " + currentTableNumber + ": " + currentTable.getAvailability());
+        System.out.println("Current order\n" + currentTable.getTableOrder());
+        System.out.println("\nHow do you want to edit the table?");
+        System.out.println("0. Exit\n1. Change availability\n2. Order");
+        int tableAction = scanner.nextInt();
+
+        if (tableAction == 0) {
+            chooseAction();
+        } else if (tableAction == 1) {
+            changeAvailability();
+            chooseAction();
+        } else if (tableAction == 2) {
+            orderBoundaries();
+            chooseAction();
+        }
+    }
+
     // REQUIRES: whichTable <= restaurant.getNumberOfTables()
     // MODIFIES: this
     // EFFECTS: asks and chooses which table to edit
     private void chooseTable() {
         System.out.println("Which table would you like to choose to edit?");
-        whichTableNumber = scanner.nextInt();
-        currentTable = restaurant.getSpecificTable(whichTableNumber);
-        System.out.println("Currently editing table: " + whichTableNumber + "\n");
+        currentTableNumber = scanner.nextInt();
+        currentTable = restaurant.getSpecificTable(currentTableNumber);
+        System.out.println("Currently editing table: " + currentTableNumber + "\n");
     }
 
-    // REQUIRES: whichTable = "Y" || "y" || "N" || "n"
     // MODIFIES: this
-    // EFFECTS: ask whether to change the availability of the current table,
+    // EFFECTS: changes the availability of the current table,
     //          if table becomes occupied or is already occupied and availability
     //          is unchanged, then order items for the table
-    private void askChangeAvailability() {
-        System.out.println("Table " + whichTableNumber + " is currently: " + currentTable.getAvailability());
-        System.out.println("Do you want to change the table's availability? (Y/N)");
-        String shouldChangeAvailability = scanner.next();
+    private void changeAvailability() {
+        currentTable.changeAvailability();
+        System.out.println("Table " + currentTableNumber + " is now: " + currentTable.getAvailability());
 
-        if (shouldChangeAvailability.equals("Y") || shouldChangeAvailability.equals("y")) {
-            currentTable.changeAvailability();
-            System.out.println("Table " + whichTableNumber + " is now: " + currentTable.getAvailability());
-
-            if (currentTable.getAvailability().equals("available")) {
-                System.out.println("Since the table is no longer in use the table order has been reset");
-                currentTable.resetOrder();
-                chooseAction();
-            } else if (currentTable.getAvailability().equals("occupied")) {
-                System.out.println("Would you like to begin an order for this table? (Y/N)");
-                String shouldOrder = scanner.next();
-
-                if (shouldOrder.equals("Y") || shouldOrder.equals("y")) {
-                    orderBoundaries();
-                } else if (shouldOrder.equals("N") || shouldOrder.equals("n")) {
-                    chooseAction();
-                }
-            }
-        } else if (shouldChangeAvailability.equals("N") || shouldChangeAvailability.equals("n")) {
+        if (currentTable.getAvailability().equals("available")) {
+            System.out.println("Since the table is no longer in use the table order has been reset");
+            currentTable.resetOrder();
             chooseAction();
+        } else if (currentTable.getAvailability().equals("occupied")) {
+            System.out.println("Would you like to begin an order for this table? (Y/N)");
+            String shouldOrder = scanner.next();
+
+            if (shouldOrder.equals("Y") || shouldOrder.equals("y")) {
+                orderBoundaries();
+            } else if (shouldOrder.equals("N") || shouldOrder.equals("n")) {
+                chooseAction();
+            }
         }
     }
 

@@ -85,6 +85,31 @@ public class Restaurant implements Writable {
         return allAvailability;
     }
 
+    // EFFECTS: returns numbered tables with their corresponding order
+    public String getAllOrders() {
+        int n = 1;
+        String allOrders = "";
+
+        for (Table t : restaurantTables) {
+            if (t.getTableOrder().isEmpty() && n != restaurantTables.size()) {
+                allOrders += "Table " + n + ": no orders\n";
+            } else if (t.getTableOrder().isEmpty() && n == restaurantTables.size()) {
+                allOrders += "Table " + n + ": no orders";
+            } else if (n != restaurantTables.size()) {
+                allOrders += "Table " + n + ":\n" + t.getAllItemsOrdered() + "\n";
+            } else {
+                allOrders += "Table " + n + ":\n" + t.getAllItemsOrdered();
+            }
+
+            if (n != restaurantTables.size()) {
+                allOrders += "\n";
+            }
+
+            n++;
+        }
+        return allOrders;
+    }
+
     @Override
     // EFFECTS: converts Restaurant information to JSON format
     public JSONObject toJson() {

@@ -21,6 +21,9 @@ public class RestaurantTest {
     void runBefore() {
         r1 = new Restaurant(0);
         r2 = new Restaurant(4);
+
+        m1 = new MenuItem("Fried Rice", 12.99);
+        m2 = new MenuItem("Chow Mein", 13.99);
     }
 
     @Test
@@ -31,9 +34,6 @@ public class RestaurantTest {
 
     @Test
     void testGetSpecificTable() {
-        m1 = new MenuItem("Fried Rice", 12.99);
-        m2 = new MenuItem("Chow Mein", 13.99);
-
         r2.getSpecificTable(2).changeAvailability();
         r2.getSpecificTable(3).changeAvailability();
 
@@ -86,5 +86,19 @@ public class RestaurantTest {
         r2.getSpecificTable(4).changeAvailabilityTo(3);
         assertEquals("Table 1: available\nTable 2: occupied\nTable 3: ready to pay\nTable 4: needs cleaning",
                 r2.getAllAvailability());
+    }
+
+    @Test
+    void testGetAllOrders() {
+        r1.addTable();
+        r1.getSpecificTable(1).changeAvailabilityTo(1);
+        r1.getSpecificTable(1).addMenuItem(m1);
+        assertEquals("Table 1:\nFried Rice x1", r1.getAllOrders());
+
+        r2.getSpecificTable(2).changeAvailabilityTo(1);
+        r2.getSpecificTable(2).addMenuItem(m1);
+        r2.getSpecificTable(2).addMenuItem(m2);
+        assertEquals("Table 1: no orders\n\nTable 2:\nFried Rice x1\nChow Mein x1\n\nTable 3: no orders\n\n"
+                + "Table 4: no orders", r2.getAllOrders());
     }
 }

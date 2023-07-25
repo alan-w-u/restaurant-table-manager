@@ -133,10 +133,16 @@ class TableTest {
     }
 
     @Test
+    void testGetUniqueItems() {
+        assertEquals(0, t1.getUniqueItems());
+        assertEquals(2, t5.getUniqueItems());
+    }
+
+    @Test
     void testGetAllItemsOrdered() {
         t5.addMenuItem(m2);
         t5.addMenuItem(m1);
-        assertEquals("Fried Rice x2\nChow Mein x2\n", t5.getAllItemsOrdered());
+        assertEquals("Fried Rice x2\nChow Mein x2", t5.getAllItemsOrdered());
     }
 
     @Test
