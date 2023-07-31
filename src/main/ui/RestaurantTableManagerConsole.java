@@ -8,10 +8,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
-// Restaurant Table Manager application
-public class RestaurantTableManagerApp {
+// Restaurant Table Manager Console Application
+public class RestaurantTableManagerConsole {
 
-    private Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
     private Restaurant restaurant;
     private Table currentTable;
     private int currentTableNumber;
@@ -24,14 +24,11 @@ public class RestaurantTableManagerApp {
     Menu menu = new Menu();
 
     // EFFECTS: runs the restaurant table manager application
-    public RestaurantTableManagerApp() throws  FileNotFoundException {
+    public RestaurantTableManagerConsole() throws  FileNotFoundException {
+        scanner = new Scanner(System.in);
         jsonWriter = new JsonWriter(JSON_LOCATION);
         jsonReader = new JsonReader(JSON_LOCATION);
-        restaurantTableManagerRun();
-    }
 
-    // EFFECTS: runs the restaurant table manager application
-    public void restaurantTableManagerRun() {
         chooseNewOrLoad();
         chooseAction();
 
@@ -173,7 +170,7 @@ public class RestaurantTableManagerApp {
         currentTable.changeAvailability();
         System.out.println("Table " + currentTableNumber + " is now: " + currentTable.getAvailability());
 
-        if (currentTable.getAvailability().equals("available")) {
+        if (currentTable.getAvailability().equals("needs cleaning")) {
             System.out.println("Since the table is no longer in use the table order has been reset");
             currentTable.resetOrder();
             chooseAction();
