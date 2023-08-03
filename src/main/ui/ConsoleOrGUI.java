@@ -7,11 +7,9 @@ import java.util.Scanner;
 // Choose what method to display application
 public class ConsoleOrGUI {
 
-    private Scanner scanner;
-
     // EFFECTS: chooses whether to run the application in console or GUI
     public ConsoleOrGUI() {
-        scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         System.out.println("Choose what mode you want the application to run in:");
         System.out.println("0. Quit\n1. Console\n2. GUI");

@@ -22,6 +22,10 @@ public class Restaurant implements Writable {
         }
     }
 
+    public List<Table> getRestaurantTables() {
+        return restaurantTables;
+    }
+
     public int getNumberOfTables() {
         return restaurantTables.size();
     }

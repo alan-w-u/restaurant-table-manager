@@ -26,7 +26,12 @@ public class RestaurantTest {
 
     @Test
     void testConstructor() {
+        List<Table> emptyList = new ArrayList<>();
+        List<Table> list = new ArrayList<>();
+
         assertEquals(0, r1.getNumberOfTables());
+        assertEquals(emptyList, r1.getRestaurantTables());
+
         assertEquals(4, r2.getNumberOfTables());
     }
 
