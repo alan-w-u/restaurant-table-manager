@@ -13,8 +13,9 @@ import javax.swing.border.*;
 // Represents the view of all the tables in the restaurant
 public class RestaurantView extends JPanel implements ActionListener {
     private Restaurant restaurant;
-    private List<TableIcon> tableIcons = new ArrayList<>();
+    private List<TableIcon> tableIcons;
 
+    private JPanel restaurantView;
     private JPanel restaurantPanel;
     private GridBagConstraints constraints;
 
@@ -24,11 +25,10 @@ public class RestaurantView extends JPanel implements ActionListener {
     public RestaurantView(Restaurant restaurant) {
         this.restaurant = restaurant;
 
-        restaurantPanel = new JPanel();
-        constraints = new GridBagConstraints();
+        restaurantView = new JPanel();
+        restaurantView.setLayout(new GridBagLayout());
 
-        restaurantPanel.setLayout(new GridBagLayout());
-        restaurantPanel.setBorder(BorderFactory.createTitledBorder("Restaurant View"));
+        constraints = new GridBagConstraints();
 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 0;
@@ -36,20 +36,20 @@ public class RestaurantView extends JPanel implements ActionListener {
         constraints.weightx = 1;
         constraints.weighty = 1;
 
-        displayTables();
-//        add(restaurantPanel, constraints);
+        add(displayTables(), constraints);
     }
 
     // MODIFIES: this
     // EFFECTS: displays the tables on the RestaurantView
     @SuppressWarnings("methodlength")
-    public void displayTables() {
+    private JPanel displayTables() {
         int row = 0;
-        int column = 0;
+        int column = 1;
         int tableNumber = 1;
 
-        for (Table t : restaurant.getRestaurantTables()) {
+        tableIcons = new ArrayList<>();
 
+        for (Table t : restaurant.getRestaurantTables()) {
             TableIcon tableIcon = new TableIcon(t, tableNumber);
             tableIcons.add(tableIcon);
             tableIcon.actionListener(this);
@@ -61,7 +61,7 @@ public class RestaurantView extends JPanel implements ActionListener {
             constraints.weighty = 0.5;
             constraints.insets = new Insets(5, 5, 5, 5);
 
-            add(tableIcon, constraints, -1);
+            restaurantView.add(tableIcon, constraints, -1);
 
             if (row + 1 >= ROW_MAX) {
                 row = 0;
@@ -73,14 +73,13 @@ public class RestaurantView extends JPanel implements ActionListener {
             tableNumber++;
         }
 
-        revalidate();
-        repaint();
+        return restaurantView;
     }
 
     // MODIFIES: this
     // EFFECTS: selects the table to be edited
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Click");
+
     }
 }

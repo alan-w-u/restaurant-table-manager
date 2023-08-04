@@ -20,8 +20,7 @@ public class TableIcon extends JPanel implements MouseListener {
     public TableIcon(Table table, int tableNumber) {
         this.table = table;
 
-        setLayout(new GridBagLayout());
-        setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        setBorder(BorderFactory.createLineBorder(Color.BLACK, 3, true));
         chooseTableColour();
 
         addMouseListener(this);
@@ -68,7 +67,7 @@ public class TableIcon extends JPanel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        setBorder(BorderFactory.createLineBorder(Color.GRAY));
+
     }
 
     @Override

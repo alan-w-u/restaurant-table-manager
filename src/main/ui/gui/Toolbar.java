@@ -7,6 +7,7 @@ import persistence.JsonWriter;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 // Represents the toolbar
@@ -54,6 +55,11 @@ public class Toolbar extends JPanel implements ActionListener {
         loadButton.setToolTipText("load");
         addTableButton.setToolTipText("add tables");
         removeTableButton.setToolTipText("remove tables");
+
+        saveButton.addActionListener(this);
+        loadButton.addActionListener(this);
+        addTableButton.addActionListener(this);
+        removeTableButton.addActionListener(this);
     }
 
     // MODIFIES: this
@@ -74,7 +80,14 @@ public class Toolbar extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)) {
-            restaurant.toJson();
+            try {
+                jsonWriter.open();
+                jsonWriter.write(restaurant);
+                jsonWriter.close();
+                System.out.println("Saved restaurant to " + JSON_LOCATION);
+            } catch (FileNotFoundException x) {
+                System.out.println("Unable to write to file: " + JSON_LOCATION);
+            }
         } else if (e.getSource().equals(loadButton)) {
             try {
                 restaurant = jsonReader.read();
@@ -82,11 +95,9 @@ public class Toolbar extends JPanel implements ActionListener {
                 System.out.println("Unable to read from file: " + JSON_LOCATION);
             }
         } else if (e.getSource().equals(addTableButton)) {
-            restaurant.addAmountOfTables(1);
+            restaurant.addTable();
         } else if (e.getSource().equals(removeTableButton)) {
             restaurant.removeTable();
         }
-
-        System.out.println(restaurant.getNumberOfTables());
     }
 }

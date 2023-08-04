@@ -54,12 +54,12 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
     // MODIFIES: this
     // EFFECTS: generates the layout of the GUI
     private void generateLayout() {
+        generateToolbar();
         generateRestaurantView();
         generateTableView();
-        generateToolbar();
 
-//        add(toolbar, constraints);
-//        add(restaurantView, constraints);
+        revalidate();
+        repaint();
     }
 
     // EFFECTS: ask whether to load a saved restaurant or create a new one
@@ -122,6 +122,8 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
         restaurantPanel.setLayout(new GridBagLayout());
         restaurantPanel.setBorder(BorderFactory.createTitledBorder("Restaurant View"));
 
+        restaurantPanel.add(restaurantView);
+
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
         constraints.gridy = 0;
@@ -129,7 +131,6 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
         constraints.weighty = 1;
 
         add(restaurantPanel, constraints);
-//        add(restaurantView, constraints);
     }
 
     // MODIFIES: this
@@ -158,7 +159,6 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
     @Override
     public void actionPerformed(ActionEvent e) {
         System.out.println(restaurant.getNumberOfTables());
-
     }
 
     // EFFECTS: DIRECT ACCESS TO GUI: REMOVE LATER
