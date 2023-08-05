@@ -1,4 +1,4 @@
-package ui.gui;
+package ui;
 
 import model.*;
 import persistence.JsonReader;
@@ -28,10 +28,10 @@ public class Toolbar extends JPanel implements ActionListener {
     // EFFECTS: constructs the toolbar
     public Toolbar(Restaurant restaurant) {
         this.restaurant = restaurant;
+        toolbar = new JToolBar("Toolbar");
+
         jsonWriter = new JsonWriter(JSON_LOCATION);
         jsonReader = new JsonReader(JSON_LOCATION);
-
-        toolbar = new JToolBar("Toolbar");
 
         initializeToolbar();
         displayToolbar();

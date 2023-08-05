@@ -1,4 +1,4 @@
-package ui.gui;
+package ui;
 
 import model.*;
 
@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
-import javax.swing.border.*;
 
 // Represents the view of all the tables in the restaurant
 public class RestaurantView extends JPanel implements ActionListener {
@@ -16,7 +15,6 @@ public class RestaurantView extends JPanel implements ActionListener {
     private List<TableIcon> tableIcons;
 
     private JPanel restaurantView;
-    private JPanel restaurantPanel;
     private GridBagConstraints constraints;
 
     private static final int ROW_MAX = 5;
@@ -28,21 +26,13 @@ public class RestaurantView extends JPanel implements ActionListener {
         restaurantView = new JPanel();
         restaurantView.setLayout(new GridBagLayout());
 
-        constraints = new GridBagConstraints();
-
-        constraints.fill = GridBagConstraints.BOTH;
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.weightx = 1;
-        constraints.weighty = 1;
-
-        add(displayTables(), constraints);
+        add(displayTables());
     }
 
     // MODIFIES: this
     // EFFECTS: displays the tables on the RestaurantView
     @SuppressWarnings("methodlength")
-    private JPanel displayTables() {
+    public JPanel displayTables() {
         int row = 0;
         int column = 1;
         int tableNumber = 1;
@@ -54,11 +44,10 @@ public class RestaurantView extends JPanel implements ActionListener {
             tableIcons.add(tableIcon);
             tableIcon.actionListener(this);
 
-            constraints.fill = GridBagConstraints.BOTH;
+            constraints = new GridBagConstraints();
+            constraints.fill = GridBagConstraints.NONE;
             constraints.gridx = row;
             constraints.gridy = column;
-            constraints.weightx = 0.5;
-            constraints.weighty = 0.5;
             constraints.insets = new Insets(5, 5, 5, 5);
 
             restaurantView.add(tableIcon, constraints, -1);

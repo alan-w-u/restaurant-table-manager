@@ -8,18 +8,18 @@ import java.io.IOException;
 import javax.swing.*;
 
 import model.*;
-import ui.gui.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 // Restaurant Table Manager GUI Application
 public class RestaurantTableManagerGUI extends JFrame implements ActionListener {
     private Restaurant restaurant;
-    private GridBagConstraints constraints = new GridBagConstraints();
-    private JPanel restaurantPanel = new JPanel();
-    private JPanel tablePanel = new JPanel();
+    private GridBagConstraints constraints;
+    private JPanel restaurantPanel;
+    private JPanel tablePanel;
     private Toolbar toolbar;
     private RestaurantView restaurantView;
+    private TableView tableView;
 
     private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -30,11 +30,16 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-    // EFFECTS: constructs the GUI
+    // EFFECTS: constructs the Restaurant Table Manager GUI
     public RestaurantTableManagerGUI() {
         restaurant = new Restaurant(0);
         toolbar = new Toolbar(restaurant);
+
+        restaurantPanel = new JPanel();
+        tablePanel = new JPanel();
+
         restaurantView = new RestaurantView(restaurant);
+        tableView = new TableView(null);
 
         jsonWriter = new JsonWriter(JSON_LOCATION);
         jsonReader = new JsonReader(JSON_LOCATION);
@@ -85,6 +90,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
         restaurantView = new RestaurantView(restaurant);
     }
 
+    // MODIFIES: this
     // EFFECTS: generates a Restaurant with a given amount of tables
     private void generateRestaurant() {
         try {
@@ -107,6 +113,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
     // MODIFIES: this
     // EFFECTS: generates the toolbar
     private void generateToolbar() {
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -119,15 +126,19 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
     // MODIFIES: this
     // EFFECTS: generates the restaurant preview with all tables
     private void generateRestaurantView() {
-        restaurantPanel.setLayout(new GridBagLayout());
+        restaurantPanel.setLayout(new BoxLayout(restaurantPanel, BoxLayout.PAGE_AXIS));
         restaurantPanel.setBorder(BorderFactory.createTitledBorder("Restaurant View"));
 
-        restaurantPanel.add(restaurantView);
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
 
+        restaurantPanel.add(restaurantView, constraints);
+
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
         constraints.gridy = 0;
-        constraints.weightx = 0.6;
+        constraints.weightx = 0.7;
         constraints.weighty = 1;
 
         add(restaurantPanel, constraints);
@@ -136,13 +147,18 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
     // MODIFIES: this
     // EFFECTS: generates the table preview for a specific table
     private void generateTableView() {
-        tablePanel.setLayout(new GridBagLayout());
+        tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.PAGE_AXIS));
         tablePanel.setBorder(BorderFactory.createTitledBorder("Table View"));
 
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        tablePanel.add(tableView);
+
+        constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 2;
         constraints.gridy = 0;
-        constraints.weightx = 0.6;
+        constraints.weightx = 0.3;
         constraints.weighty = 1;
 
         add(tablePanel, constraints);
