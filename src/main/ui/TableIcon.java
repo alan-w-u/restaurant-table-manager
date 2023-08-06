@@ -45,10 +45,12 @@ public class TableIcon extends JPanel implements MouseListener {
         }
     }
 
+    // EFFECTS: registers mouse click to edit table
     public void actionListener(ActionListener listener) {
         menuItem.addActionListener(listener);
     }
 
+    // EFFECTS: registers mouse click on a table and shows a popup menu
     @Override
     public void mouseClicked(MouseEvent e) {
         popupMenu.add(menuItem);

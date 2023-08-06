@@ -3,6 +3,7 @@ package ui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -33,8 +34,8 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
     // EFFECTS: constructs the Restaurant Table Manager GUI
     public RestaurantTableManagerGUI() {
         restaurant = new Restaurant(0);
-        toolbar = new Toolbar(restaurant);
 
+        toolbar = new Toolbar(restaurant);
         restaurantPanel = new JPanel();
         tablePanel = new JPanel();
 
@@ -58,7 +59,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
 
     // MODIFIES: this
     // EFFECTS: generates the layout of the GUI
-    private void generateLayout() {
+    public void generateLayout() {
         generateToolbar();
         generateRestaurantView();
         generateTableView();
@@ -68,7 +69,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
     }
 
     // EFFECTS: ask whether to load a saved restaurant or create a new one
-    private void askLoadOrCreate() {
+    public void askLoadOrCreate() {
         int input  = JOptionPane.showConfirmDialog(
                 this,
                 "Do you want to load the saved restaurant?",
@@ -92,7 +93,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
 
     // MODIFIES: this
     // EFFECTS: generates a Restaurant with a given amount of tables
-    private void generateRestaurant() {
+    public void generateRestaurant() {
         try {
             int input = Integer.parseInt(JOptionPane.showInputDialog(
                     this,
@@ -112,7 +113,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
 
     // MODIFIES: this
     // EFFECTS: generates the toolbar
-    private void generateToolbar() {
+    public void generateToolbar() {
         constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 0;
@@ -121,11 +122,15 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
         constraints.weighty = 1;
 
         add(toolbar, constraints);
+        toolbar.getSaveButton().addActionListener(this);
+        toolbar.getLoadButton().addActionListener(this);
+        toolbar.getAddTableButton().addActionListener(this);
+        toolbar.getRemoveTableButton().addActionListener(this);
     }
 
     // MODIFIES: this
     // EFFECTS: generates the restaurant preview with all tables
-    private void generateRestaurantView() {
+    public void generateRestaurantView() {
         restaurantPanel.setLayout(new BoxLayout(restaurantPanel, BoxLayout.PAGE_AXIS));
         restaurantPanel.setBorder(BorderFactory.createTitledBorder("Restaurant View"));
 
@@ -138,15 +143,25 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
         constraints.gridy = 0;
-        constraints.weightx = 0.7;
+        constraints.weightx = 1;
         constraints.weighty = 1;
 
         add(restaurantPanel, constraints);
     }
 
     // MODIFIES: this
+    // EFFECTS: refreshes the Restaurant View to update changes
+    private void refreshRestaurantView() {
+        restaurantPanel.remove(restaurantView);
+        restaurantView = new RestaurantView(restaurant);
+        restaurantPanel.add(restaurantView);
+        revalidate();
+        repaint();
+    }
+
+    // MODIFIES: this
     // EFFECTS: generates the table preview for a specific table
-    private void generateTableView() {
+    public void generateTableView() {
         tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.PAGE_AXIS));
         tablePanel.setBorder(BorderFactory.createTitledBorder("Table View"));
 
@@ -158,7 +173,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 2;
         constraints.gridy = 0;
-        constraints.weightx = 0.3;
+        constraints.weightx = 0;
         constraints.weighty = 1;
 
         add(tablePanel, constraints);
@@ -166,15 +181,43 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener 
 
     // MODIFIES: this
     // EFFECTS: centres the GUI on screen
-    private void centreOnScreen() {
+    public void centreOnScreen() {
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
         int height = Toolkit.getDefaultToolkit().getScreenSize().height;
         setLocation((width - getWidth()) / 2, (height - getHeight()) / 2);
     }
 
+    // MODIFIES: this
+    // EFFECTS: registers actions performed on the toolbar
+    public void toolbarActionPerformed(ActionEvent e) {
+        if (e.getSource().equals(toolbar.getSaveButton())) {
+            try {
+                jsonWriter.open();
+                jsonWriter.write(restaurant);
+                jsonWriter.close();
+                refreshRestaurantView();
+            } catch (FileNotFoundException x) {
+                //
+            }
+        } else if (e.getSource().equals(toolbar.getLoadButton())) {
+            try {
+                restaurant = jsonReader.read();
+                refreshRestaurantView();
+            } catch (IOException x) {
+                //
+            }
+        } else if (e.getSource().equals(toolbar.getAddTableButton())) {
+            restaurant.addTable();
+            refreshRestaurantView();
+        } else if (e.getSource().equals(toolbar.getRemoveTableButton())) {
+            restaurant.removeTable();
+            refreshRestaurantView();
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println(restaurant.getNumberOfTables());
+        toolbarActionPerformed(e);
     }
 
     // EFFECTS: DIRECT ACCESS TO GUI: REMOVE LATER

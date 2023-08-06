@@ -34,6 +34,10 @@ public class TableView extends JPanel implements ActionListener {
         checkoutButton = new JButton("Checkout");
         changeAvailabilityButton = new JButton("Change Availability");
 
+        orderButton.addActionListener(this);
+        checkoutButton.addActionListener(this);
+        changeAvailabilityButton.addActionListener(this);
+
         add(scrollPanel);
         add(orderButton);
         add(checkoutButton);
@@ -56,6 +60,12 @@ public class TableView extends JPanel implements ActionListener {
     // EFFECTS: selects the table to be edited
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource().equals(orderButton)) {
+            //
+        } else if (e.getSource().equals(checkoutButton)) {
+            //
+        } else if (e.getSource().equals(changeAvailabilityButton)) {
+            //
+        }
     }
 }

@@ -39,9 +39,25 @@ public class Toolbar extends JPanel implements ActionListener {
         add(toolbar);
     }
 
+    public JButton getSaveButton() {
+        return saveButton;
+    }
+
+    public JButton getLoadButton() {
+        return loadButton;
+    }
+
+    public JButton getAddTableButton() {
+        return addTableButton;
+    }
+
+    public JButton getRemoveTableButton() {
+        return removeTableButton;
+    }
+
     // MODIFIES: this
     // EFFECTS: initializes the toolbar
-    private void initializeToolbar() {
+    public void initializeToolbar() {
         toolbar.setOrientation(SwingConstants.VERTICAL);
         toolbar.setFloatable(false);
         toolbar.setRollover(true);
@@ -55,16 +71,11 @@ public class Toolbar extends JPanel implements ActionListener {
         loadButton.setToolTipText("load");
         addTableButton.setToolTipText("add tables");
         removeTableButton.setToolTipText("remove tables");
-
-        saveButton.addActionListener(this);
-        loadButton.addActionListener(this);
-        addTableButton.addActionListener(this);
-        removeTableButton.addActionListener(this);
     }
 
     // MODIFIES: this
     // EFFECTS: displays the toolbar elements
-    private void displayToolbar() {
+    public void displayToolbar() {
         toolbar.add(Box.createVerticalStrut(5));
         toolbar.add(saveButton);
         toolbar.add(Box.createVerticalStrut(5));
@@ -75,29 +86,8 @@ public class Toolbar extends JPanel implements ActionListener {
         toolbar.add(removeTableButton);
     }
 
-    // MODIFIES: this
-    // EFFECTS: determines action when buttons are pressed
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource().equals(saveButton)) {
-            try {
-                jsonWriter.open();
-                jsonWriter.write(restaurant);
-                jsonWriter.close();
-                System.out.println("Saved restaurant to " + JSON_LOCATION);
-            } catch (FileNotFoundException x) {
-                System.out.println("Unable to write to file: " + JSON_LOCATION);
-            }
-        } else if (e.getSource().equals(loadButton)) {
-            try {
-                restaurant = jsonReader.read();
-            } catch (IOException x) {
-                System.out.println("Unable to read from file: " + JSON_LOCATION);
-            }
-        } else if (e.getSource().equals(addTableButton)) {
-            restaurant.addTable();
-        } else if (e.getSource().equals(removeTableButton)) {
-            restaurant.removeTable();
-        }
+
     }
 }
