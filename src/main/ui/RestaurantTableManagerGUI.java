@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -28,8 +27,8 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
 
     private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     private static int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-    private static int WIDTH = SCREEN_WIDTH / 15 * 10;
-    private static final int HEIGHT = SCREEN_HEIGHT / 15 * 10;
+    private static int WIDTH = SCREEN_WIDTH / 10 * 6;
+    private static final int HEIGHT = SCREEN_HEIGHT / 10 * 6;
 
     private static final String JSON_LOCATION = "./data/restaurant.json";
     private JsonWriter jsonWriter;
@@ -147,7 +146,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 1;
         constraints.gridy = 0;
-        constraints.weightx = 0.8;
+        constraints.weightx = 0.6;
         constraints.weighty = 1;
 
         add(restaurantPanel, constraints);
@@ -168,7 +167,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
         constraints.fill = GridBagConstraints.BOTH;
         constraints.gridx = 2;
         constraints.gridy = 0;
-        constraints.weightx = 0.2;
+        constraints.weightx = 0.4;
         constraints.weighty = 1;
 
         add(tablePanel, constraints);

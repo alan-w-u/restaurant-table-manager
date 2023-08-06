@@ -23,6 +23,10 @@ public class Menu {
         this.addItemToMenu(m4);
     }
 
+    public List<MenuItem> getMenu() {
+        return menu;
+    }
+
     public int getNumberOfItemsOnMenu() {
         return menu.size();
     }

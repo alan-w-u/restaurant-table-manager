@@ -3,6 +3,9 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MenuTest {
@@ -12,6 +15,16 @@ public class MenuTest {
     @BeforeEach
     void runBefore() {
         menu = new Menu();
+    }
+
+    @Test
+    void testConstructor() {
+        List<MenuItem> list = new ArrayList<>();
+        list.add(menu.m1);
+        list.add(menu.m2);
+        list.add(menu.m3);
+        list.add(menu.m4);
+        assertEquals(list, menu.getMenu());
     }
 
     @Test

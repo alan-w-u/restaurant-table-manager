@@ -92,11 +92,33 @@ class TableTest {
     }
 
     @Test
-    void testAddMenuItem() {
-        assertFalse(t1.addMenuItem(menu.m1));
-        assertTrue(t2.addMenuItem(menu.m1));
-        assertFalse(t3.addMenuItem(menu.m1));
-        assertFalse(t4.addMenuItem(menu.m1));
+    void testAddAndRemoveMenuItem() {
+        List<MenuItem> list = new ArrayList<>();
+        t1.addMenuItem(menu.m1);
+        assertEquals(list, t1.getTableOrder());
+        t1.removeMenuItem(0);
+        assertEquals(list, t1.getTableOrder());
+        t1.removeMenuItem("Fried Rice");
+        assertEquals(list, t1.getTableOrder());
+
+        t2.addMenuItem(menu.m1);
+        list.add(menu.m1);
+        assertEquals(list, t2.getTableOrder());
+        t2.removeMenuItem(1);
+        list.remove(0);
+        assertEquals(list, t2.getTableOrder());
+        t2.addMenuItem(menu.m1);
+        list.add(menu.m1);
+        assertEquals(list, t2.getTableOrder());
+        t2.removeMenuItem("Fried Rice");
+        list.remove(0);
+        assertEquals(list, t2.getTableOrder());
+        t2.removeMenuItem("Chow Mein");
+        assertEquals(list, t2.getTableOrder());
+        t2.addMenuItem(menu.m1);
+        list.add(menu.m1);
+        t2.removeMenuItem("Chow Mein");
+        assertEquals(list, t2.getTableOrder());
     }
 
     @Test
@@ -118,7 +140,7 @@ class TableTest {
 
     @Test
     void testGetNameAllItemsOrdered() {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         list.add("Fried Rice");
         list.add("Chow Mein");
 

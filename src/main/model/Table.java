@@ -1,5 +1,7 @@
 package model;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +47,25 @@ public class Table implements Writable {
     // MODIFIES: this
     // EFFECTS: adds a menu item to a list of ordered item by a table
     //          and return true if successfully added and false otherwise
-    public boolean addMenuItem(MenuItem menuItem) {
+    public void addMenuItem(MenuItem menuItem) {
         if (getAvailability().equals("occupied")) {
             tableOrder.add(menuItem);
-            return true;
-        } else {
-            return false;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: remove the ith item ordered
+    public void removeMenuItem(int i) {
+        if (!tableOrder.isEmpty()) {
+            tableOrder.remove(i - 1);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: remove an item ordered of given name
+    public void removeMenuItem(String menuItem) {
+        if (!tableOrder.isEmpty() && getAllItemsOrdered().contains(menuItem)) {
+            tableOrder.remove(getNameAllItemsOrdered().lastIndexOf(menuItem));
         }
     }
 
@@ -62,7 +77,7 @@ public class Table implements Writable {
             if (availability == 2) {
                 tableOrder = new ArrayList<>();
             }
-            
+
             availability++;
         } else {
             availability = 0;
@@ -172,7 +187,10 @@ public class Table implements Writable {
             n++;
         }
 
-        return total;
+        BigDecimal decimalTotal = new BigDecimal(total);
+        BigDecimal roundedTotal = decimalTotal.setScale(10, RoundingMode.HALF_UP);
+
+        return roundedTotal.doubleValue();
     }
 
     // MODIFIES: this

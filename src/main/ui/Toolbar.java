@@ -96,9 +96,13 @@ public class Toolbar extends JPanel implements ActionListener {
                 //
             }
         } else if (e.getSource().equals(addTableButton)) {
-            restaurant.addTable();
+            if (restaurant.getNumberOfTables() < 35) {
+                restaurant.addTable();
+            }
         } else if (e.getSource().equals(removeTableButton)) {
-            restaurant.removeTable();
+            if (restaurant.getNumberOfTables() > 0) {
+                restaurant.removeTable();
+            }
         }
 
         rtm.refreshAll();
