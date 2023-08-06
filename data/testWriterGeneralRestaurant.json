@@ -1,9 +1,11 @@
 {"table states": [
     {
+        "table number": 1,
         "table order": [],
         "availability": 0
     },
     {
+        "table number": 2,
         "table order": [
             {
                 "price": 12.99,

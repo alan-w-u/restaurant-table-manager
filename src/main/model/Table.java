@@ -11,16 +11,22 @@ import org.json.JSONObject;
 public class Table implements Writable {
 
     private List<MenuItem> tableOrder;
+    private int tableNumber;
     private int availability;
 
     // EFFECTS: constructs a table with no orders and is available
-    public Table() {
+    public Table(int tableNumber) {
         tableOrder = new ArrayList<>();
+        this.tableNumber = tableNumber;
         availability = 0;
     }
 
     public List<MenuItem> getTableOrder() {
         return tableOrder;
+    }
+
+    public int getTableNumber() {
+        return tableNumber;
     }
 
     public String getAvailability() {
@@ -53,6 +59,10 @@ public class Table implements Writable {
     //          2 = ready to pay     3 = needs cleaning
     public void changeAvailability() {
         if (availability <= 2) {
+            if (availability == 2) {
+                tableOrder = new ArrayList<>();
+            }
+            
             availability++;
         } else {
             availability = 0;
@@ -176,6 +186,7 @@ public class Table implements Writable {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("table order", menuItemToJson());
+        json.put("table number", tableNumber);
         json.put("availability", availability);
         return json;
     }

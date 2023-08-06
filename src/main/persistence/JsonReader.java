@@ -63,8 +63,9 @@ public class JsonReader {
     // MODIFIES: r
     // EFFECTS: parses Table information from JSON object and adds it to Restaurant
     private void addTable(Restaurant r, JSONObject jsonObject) {
+        int tableNumber = jsonObject.getInt("table number");
         int availability = jsonObject.getInt("availability");
-        Table t = new Table();
+        Table t = new Table(tableNumber);
         t.changeAvailabilityTo(availability);
         addTableOrder(r, jsonObject, t);
         r.addSpecificTable(t);

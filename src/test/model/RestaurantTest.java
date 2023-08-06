@@ -75,10 +75,11 @@ public class RestaurantTest {
 
     @Test
     void testAddSpecificTable() {
-        Table t = new Table();
+        Table t = new Table(1);
         t.changeAvailabilityTo(2);
         r1.addSpecificTable(t);
         assertEquals(1, r1.getNumberOfTables());
+        assertEquals(1, r1.getSpecificTable(1).getTableNumber());
         assertEquals("ready to pay", r1.getSpecificTable(1).getAvailability());
     }
 

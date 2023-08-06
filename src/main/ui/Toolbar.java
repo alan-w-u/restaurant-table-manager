@@ -10,8 +10,9 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-// Represents the toolbar
+// Represents the Toolbar
 public class Toolbar extends JPanel implements ActionListener {
+    private RestaurantTableManagerGUI rtm;
     private Restaurant restaurant;
 
     private static final String JSON_LOCATION = "./data/restaurant.json";
@@ -26,7 +27,8 @@ public class Toolbar extends JPanel implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: constructs the toolbar
-    public Toolbar(Restaurant restaurant) {
+    public Toolbar(RestaurantTableManagerGUI rtm, Restaurant restaurant) {
+        this.rtm = rtm;
         this.restaurant = restaurant;
         toolbar = new JToolBar("Toolbar");
 
@@ -39,24 +41,8 @@ public class Toolbar extends JPanel implements ActionListener {
         add(toolbar);
     }
 
-    public JButton getSaveButton() {
-        return saveButton;
-    }
-
-    public JButton getLoadButton() {
-        return loadButton;
-    }
-
-    public JButton getAddTableButton() {
-        return addTableButton;
-    }
-
-    public JButton getRemoveTableButton() {
-        return removeTableButton;
-    }
-
     // MODIFIES: this
-    // EFFECTS: initializes the toolbar
+    // EFFECTS: initializes the Toolbar
     public void initializeToolbar() {
         toolbar.setOrientation(SwingConstants.VERTICAL);
         toolbar.setFloatable(false);
@@ -71,10 +57,15 @@ public class Toolbar extends JPanel implements ActionListener {
         loadButton.setToolTipText("load");
         addTableButton.setToolTipText("add tables");
         removeTableButton.setToolTipText("remove tables");
+
+        saveButton.addActionListener(this);
+        loadButton.addActionListener(this);
+        addTableButton.addActionListener(this);
+        removeTableButton.addActionListener(this);
     }
 
     // MODIFIES: this
-    // EFFECTS: displays the toolbar elements
+    // EFFECTS: displays the Toolbar elements
     public void displayToolbar() {
         toolbar.add(Box.createVerticalStrut(5));
         toolbar.add(saveButton);
@@ -86,8 +77,30 @@ public class Toolbar extends JPanel implements ActionListener {
         toolbar.add(removeTableButton);
     }
 
+    // MODIFIES: this
+    // EFFECTS: registers actions performed on the Toolbar
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource().equals(saveButton)) {
+            try {
+                jsonWriter.open();
+                jsonWriter.write(restaurant);
+                jsonWriter.close();
+            } catch (FileNotFoundException x) {
+                //
+            }
+        } else if (e.getSource().equals(loadButton)) {
+            try {
+                restaurant = jsonReader.read();
+            } catch (IOException x) {
+                //
+            }
+        } else if (e.getSource().equals(addTableButton)) {
+            restaurant.addTable();
+        } else if (e.getSource().equals(removeTableButton)) {
+            restaurant.removeTable();
+        }
 
+        rtm.refreshAll();
     }
 }

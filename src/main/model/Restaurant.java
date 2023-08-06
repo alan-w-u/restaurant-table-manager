@@ -18,7 +18,7 @@ public class Restaurant implements Writable {
         restaurantTables = new ArrayList<>();
 
         for (int i = 0; i < numberOfTables; i++) {
-            restaurantTables.add(new Table());
+            restaurantTables.add(new Table(restaurantTables.size() + 1));
         }
     }
 
@@ -39,7 +39,7 @@ public class Restaurant implements Writable {
     // MODIFIES: this
     // EFFECTS: adds another table to the restaurant
     public void addTable() {
-        restaurantTables.add(new Table());
+        restaurantTables.add(new Table(restaurantTables.size() + 1));
     }
 
     // MODIFIES: this

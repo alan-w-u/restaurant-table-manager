@@ -52,8 +52,8 @@ public class JsonWriterTest extends JsonTest {
     void testWriterGeneralRestaurant() {
         try {
             Restaurant r = new Restaurant(0);
-            Table t1 = new Table();
-            Table t2 = new Table();
+            Table t1 = new Table(1);
+            Table t2 = new Table(2);
             t2.changeAvailabilityTo(1);
             t2.addMenuItem(menu.m1);
             t2.addMenuItem(menu.m1);

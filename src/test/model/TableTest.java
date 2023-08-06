@@ -22,21 +22,21 @@ class TableTest {
     void runBefore() {
         menu = new Menu();
 
-        t1 = new Table();
+        t1 = new Table(1);
 
-        t2 = new Table();
+        t2 = new Table(2);
         t2.changeAvailability();
 
-        t3 = new Table();
+        t3 = new Table(3);
         t3.changeAvailability();
         t3.changeAvailability();
 
-        t4 = new Table();
+        t4 = new Table(4);
         t4.changeAvailability();
         t4.changeAvailability();
         t4.changeAvailability();
 
-        t5 = new Table();
+        t5 = new Table(5);
         t5.changeAvailability();
         t5.addMenuItem(menu.m1);
         t5.addMenuItem(menu.m2);
@@ -45,15 +45,19 @@ class TableTest {
     @Test
     void testConstructor() {
         assertTrue(t1.getTableOrder().isEmpty());
+        assertEquals(1, t1.getTableNumber());
         assertEquals("available", t1.getAvailability());
 
         assertTrue(t2.getTableOrder().isEmpty());
+        assertEquals(2, t2.getTableNumber());
         assertEquals("occupied", t2.getAvailability());
 
         assertTrue(t3.getTableOrder().isEmpty());
+        assertEquals(3, t3.getTableNumber());
         assertEquals("ready to pay", t3.getAvailability());
 
         assertTrue(t4.getTableOrder().isEmpty());
+        assertEquals(4, t4.getTableNumber());
         assertEquals("needs cleaning", t4.getAvailability());
     }
 

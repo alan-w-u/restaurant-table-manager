@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 // Represents the view of all the tables in the restaurant
 public class RestaurantView extends JPanel implements ActionListener {
+    private RestaurantTableManagerGUI rtm;
     private Restaurant restaurant;
     private List<TableIcon> tableIcons;
 
@@ -19,9 +20,12 @@ public class RestaurantView extends JPanel implements ActionListener {
 
     private static final int ROW_MAX = 5;
 
+    // MODIFIES: this
     // EFFECTS: constructs the view of all tables in the restaurant
-    public RestaurantView(Restaurant restaurant) {
+    public RestaurantView(RestaurantTableManagerGUI rtm, Restaurant restaurant) {
+        this.rtm = rtm;
         this.restaurant = restaurant;
+        tableIcons = new ArrayList<>();
 
         restaurantView = new JPanel();
         restaurantView.setLayout(new GridBagLayout());
@@ -31,18 +35,15 @@ public class RestaurantView extends JPanel implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: displays the tables on the RestaurantView
-    @SuppressWarnings("methodlength")
     public JPanel displayTables() {
         int row = 0;
         int column = 1;
-        int tableNumber = 1;
 
-        tableIcons = new ArrayList<>();
+        noTables();
 
         for (Table t : restaurant.getRestaurantTables()) {
-            TableIcon tableIcon = new TableIcon(t, tableNumber);
+            TableIcon tableIcon = new TableIcon(rtm, t);
             tableIcons.add(tableIcon);
-            tableIcon.actionListener(this);
 
             constraints = new GridBagConstraints();
             constraints.fill = GridBagConstraints.NONE;
@@ -58,11 +59,20 @@ public class RestaurantView extends JPanel implements ActionListener {
             } else {
                 row++;
             }
-
-            tableNumber++;
         }
 
         return restaurantView;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds a no table label if restaurant is empty
+    public void noTables() {
+        if (restaurant.getRestaurantTables().isEmpty()) {
+            JLabel label = new JLabel("NO TABLES");
+            label.setFont(label.getFont().deriveFont(20f));
+
+            restaurantView.add(label);
+        }
     }
 
     // MODIFIES: this

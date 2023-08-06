@@ -1,6 +1,7 @@
 {"table states": [
     {
         "table order": [],
+        "table number": 1,
         "availability": 0
     },
     {
@@ -14,6 +15,7 @@
                 "name": "Chow Mein"
             }
         ],
+      "table number": 2,
         "availability": 1
     }
 ]}
