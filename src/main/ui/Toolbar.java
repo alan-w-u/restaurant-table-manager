@@ -55,8 +55,8 @@ public class Toolbar extends JPanel implements ActionListener {
 
         saveButton.setToolTipText("save");
         loadButton.setToolTipText("load");
-        addTableButton.setToolTipText("add tables");
-        removeTableButton.setToolTipText("remove tables");
+        addTableButton.setToolTipText("add a table");
+        removeTableButton.setToolTipText("remove a table");
 
         saveButton.addActionListener(this);
         loadButton.addActionListener(this);
