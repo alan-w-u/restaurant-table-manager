@@ -86,16 +86,16 @@ public class TableView extends JPanel implements ActionListener {
     // MODIFIES: this
     // EFFECTS: displays the Table View elements
     public void displayTableView() {
-        add(Box.createVerticalStrut(rtm.getHeight() / 50));
-
-        add(menuLabel);
-        add(Box.createVerticalStrut(rtm.getHeight() / 50));
-        add(menuScrollPanel);
-
         add(Box.createVerticalStrut(rtm.getHeight() / 100));
 
-        add(tableLabel);
+        add(menuLabel);
+        add(Box.createVerticalStrut(rtm.getHeight() / 100));
+        add(menuScrollPanel);
+
         add(Box.createVerticalStrut(rtm.getHeight() / 50));
+
+        add(tableLabel);
+        add(Box.createVerticalStrut(rtm.getHeight() / 100));
         add(orderScrollPanel);
 
         add(Box.createVerticalStrut(rtm.getHeight() / 100));
@@ -128,10 +128,18 @@ public class TableView extends JPanel implements ActionListener {
                     orderListModel.addElement(m.getMenuItemName());
                 }
             } else if (table.getAvailability().equals("ready to pay")) {
+                orderListModel.addElement("ORDER FOR THE TABLE:");
+                orderListModel.addElement("-----------------");
+                for (MenuItem m : table.getTableOrder()) {
+                    orderListModel.addElement(m.getMenuItemName());
+                }
+                orderListModel.addElement("-----------------");
                 orderListModel.addElement("TOTAL PRICE: $" + table.getTotalPriceAllItemsOrdered());
             } else {
-                orderListModel.addElement("TABLE MUST BE OCCUPIED TO ORDER");
+                orderListModel.addElement("NO ORDERS");
             }
+        } else {
+            orderListModel.addElement("NO ORDERS");
         }
     }
 
@@ -146,7 +154,7 @@ public class TableView extends JPanel implements ActionListener {
             table.addMenuItem(menu.getSpecificItem(menuList.getSelectedIndex() + 1));
         } else if (e.getSource().equals(removeItemButton)) {
             if (orderList.getSelectedIndex() > 1) {
-                table.removeMenuItem(orderList.getSelectedIndex());
+                table.removeMenuItem(orderList.getSelectedIndex() - 1);
             }
         } else if (e.getSource().equals(checkoutButton)) {
             table.changeAvailability();

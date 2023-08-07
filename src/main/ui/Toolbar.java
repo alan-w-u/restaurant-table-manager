@@ -82,19 +82,10 @@ public class Toolbar extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(saveButton)) {
-            try {
-                jsonWriter.open();
-                jsonWriter.write(restaurant);
-                jsonWriter.close();
-            } catch (FileNotFoundException x) {
-                //
-            }
+            rtm.saveRestaurant();
         } else if (e.getSource().equals(loadButton)) {
-            try {
-                restaurant = jsonReader.read();
-            } catch (IOException x) {
-                //
-            }
+            rtm.loadRestaurant();
+            rtm.refreshToolbar();
         } else if (e.getSource().equals(addTableButton)) {
             if (restaurant.getNumberOfTables() < 35) {
                 restaurant.addTable();

@@ -21,10 +21,10 @@ public class RestaurantTableManagerConsole {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-    Menu menu = new Menu();
+    Menu menu;
 
     // EFFECTS: runs the restaurant table manager application
-    public RestaurantTableManagerConsole() throws  FileNotFoundException {
+    public RestaurantTableManagerConsole() throws FileNotFoundException {
         scanner = new Scanner(System.in);
         jsonWriter = new JsonWriter(JSON_LOCATION);
         jsonReader = new JsonReader(JSON_LOCATION);

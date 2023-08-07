@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -26,8 +27,8 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
     private JPanel tablePanel;
 
     private static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
-    private static int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-    private static int WIDTH = SCREEN_WIDTH / 10 * 6;
+    private static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+    private static final int WIDTH = SCREEN_WIDTH / 10 * 6;
     private static final int HEIGHT = SCREEN_HEIGHT / 10 * 6;
 
     private static final String JSON_LOCATION = "./data/restaurant.json";
@@ -84,11 +85,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
         if (input == JOptionPane.CLOSED_OPTION) {
             System.exit(0);
         } else if (input == JOptionPane.YES_OPTION) {
-            try {
-                restaurant = jsonReader.read();
-            } catch (IOException e) {
-                generateRestaurant();
-            }
+            loadRestaurant();
         } else {
             generateRestaurant();
         }
@@ -113,6 +110,28 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
             }
         } catch (Exception e) {
             askLoadOrCreate();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: saves the restaurant
+    public void saveRestaurant() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(restaurant);
+            jsonWriter.close();
+        } catch (FileNotFoundException x) {
+            //
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads a saved restaurant
+    public void loadRestaurant() {
+        try {
+            restaurant = jsonReader.read();
+        } catch (IOException e) {
+            refreshAll();
         }
     }
 
@@ -182,6 +201,24 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
     public void refreshAll() {
         refreshRestaurantView();
         refreshTableView();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: refreshes the Toolbar
+    public void refreshToolbar() {
+        remove(toolbar);
+        toolbar = new Toolbar(this, restaurant);
+
+        constraints = new GridBagConstraints();
+        constraints.fill = GridBagConstraints.BOTH;
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.weightx = 0;
+        constraints.weighty = 1;
+
+        add(toolbar, constraints);
+        revalidate();
+        repaint();
     }
 
     // MODIFIES: this
