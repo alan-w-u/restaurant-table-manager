@@ -4,6 +4,9 @@ import model.*;
 import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import ui.gui.RestaurantView;
+import ui.gui.TableView;
+import ui.gui.Toolbar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,13 +34,11 @@ public class RestaurantTableManagerGUI extends JFrame {
     private static final String JSON_LOCATION = "./data/restaurant.json";
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    private EventLog eventLog;
 
     // EFFECTS: constructs the Restaurant Table Manager GUI
     public RestaurantTableManagerGUI() {
         restaurant = new Restaurant(0);
         currentTable = null;
-        eventLog = EventLog.getInstance();
 
         toolbar = new Toolbar(this, restaurant);
         restaurantView = new RestaurantView(this, restaurant);
@@ -240,20 +241,15 @@ public class RestaurantTableManagerGUI extends JFrame {
         repaint();
     }
 
-    // EFFECTS: prints the event log when application finishes
+    // EFFECTS: prints the event log when application closes
     private void printEventLog() {
-        this.addWindowListener(new WindowAdapter() {
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent windowEvent) {
-                for (Event e : eventLog) {
+                for (Event e : EventLog.getInstance()) {
                     System.out.println(e.toString() + "\n");
                 }
             }
         });
-    }
-
-    // EFFECTS: DIRECT ACCESS TO GUI: REMOVE LATER
-    public static void main(String[] args) {
-        new RestaurantTableManagerGUI();
     }
 }

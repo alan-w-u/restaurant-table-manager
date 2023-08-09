@@ -1,6 +1,7 @@
-package ui;
+package ui.gui;
 
 import model.*;
+import ui.RestaurantTableManagerGUI;
 
 import javax.swing.*;
 import java.awt.*;

@@ -35,5 +35,17 @@ public class EventTest {
     public void testToString() {
         assertEquals(d.toString() + "\n" + "Test", e.toString());
     }
+
+    @Test
+    public void testEquals() {
+        assertFalse(e.equals(null));
+        assertFalse(e.equals(new Restaurant(0)));
+    }
+
+    @Test
+    public void testHashcode() {
+        assertEquals(13 * Calendar.getInstance().getTime().hashCode() + "Test".hashCode(), e.hashCode());
+    }
+
 }
 

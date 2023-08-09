@@ -71,6 +71,15 @@ Removed Fried Rice from Table 1 order
 Mon Aug 07 01:10:04 PDT 2023
 Removed Table 1 from the restaurant
 
+## Phase 4: Task 3
+
+After creating and viewing the UML class diagram of my application, to improve the design I would try refactoring the Menu 
+class to utilize the singleton pattern. A restaurant only has one menu, at it is generally universal for the entire restaurant
+making it a viable candidate for the singleton pattern. It is reasonable to only allow one Menu object to exist and simply call 
+it when necessary. This would also mean the Menu would only need to be instantiated once through the singleton method, 
+which could reduce memory usage and complexity especially when the menu becomes larger. This would also remove the need to 
+instantiate the Menu whenever a class needs to access it, reducing the number of steps when scaling up the project and
+adding more classes or functionality.
 
 ## References
 - JsonSerializationDemo-master provided by CPSC 210 edX as reference for the JSON writing/reading functionality
