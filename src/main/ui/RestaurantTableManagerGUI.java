@@ -1,21 +1,18 @@
 package ui;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
-import javax.swing.*;
-
 import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 // Restaurant Table Manager GUI Application
-public class RestaurantTableManagerGUI extends JFrame implements ActionListener, MouseListener {
+public class RestaurantTableManagerGUI extends JFrame {
     private Restaurant restaurant;
     private static Table currentTable;
 
@@ -34,11 +31,13 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
     private static final String JSON_LOCATION = "./data/restaurant.json";
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+    private EventLog eventLog;
 
     // EFFECTS: constructs the Restaurant Table Manager GUI
     public RestaurantTableManagerGUI() {
         restaurant = new Restaurant(0);
         currentTable = null;
+        eventLog = EventLog.getInstance();
 
         toolbar = new Toolbar(this, restaurant);
         restaurantView = new RestaurantView(this, restaurant);
@@ -50,8 +49,6 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
         jsonWriter = new JsonWriter(JSON_LOCATION);
         jsonReader = new JsonReader(JSON_LOCATION);
 
-        addMouseListener(this);
-
         setTitle("Restaurant Table Manager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
@@ -60,6 +57,8 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
 
         askLoadOrCreate();
         generateLayout();
+
+        printEventLog();
 
         setVisible(true);
     }
@@ -131,7 +130,7 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
         try {
             restaurant = jsonReader.read();
         } catch (IOException e) {
-            refreshAll();
+            //
         }
     }
 
@@ -241,35 +240,16 @@ public class RestaurantTableManagerGUI extends JFrame implements ActionListener,
         repaint();
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
-    }
-
-    // EFFECTS: refreshes screen when mouse pressed
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-
+    // EFFECTS: prints the event log when application finishes
+    private void printEventLog() {
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                for (Event e : eventLog) {
+                    System.out.println(e.toString() + "\n");
+                }
+            }
+        });
     }
 
     // EFFECTS: DIRECT ACCESS TO GUI: REMOVE LATER

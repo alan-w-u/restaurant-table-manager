@@ -50,6 +50,8 @@ public class Table implements Writable {
     public void addMenuItem(MenuItem menuItem) {
         if (getAvailability().equals("occupied")) {
             tableOrder.add(menuItem);
+            EventLog.getInstance().logEvent(new Event("Added " + menuItem.getMenuItemName()
+                    + " to Table " + getTableNumber() + " order"));
         }
     }
 
@@ -57,6 +59,8 @@ public class Table implements Writable {
     // EFFECTS: remove the ith item ordered
     public void removeMenuItem(int i) {
         if (!tableOrder.isEmpty()) {
+            EventLog.getInstance().logEvent(new Event("Removed " + tableOrder.get(i - 1).getMenuItemName()
+                    + " from Table " + getTableNumber() + " order"));
             tableOrder.remove(i - 1);
         }
     }
@@ -65,6 +69,8 @@ public class Table implements Writable {
     // EFFECTS: remove an item ordered of given name
     public void removeMenuItem(String menuItem) {
         if (!tableOrder.isEmpty() && getAllItemsOrdered().contains(menuItem)) {
+            EventLog.getInstance().logEvent(new Event("Removed " + menuItem
+                    + " to Table " + getTableNumber() + " order"));
             tableOrder.remove(getNameAllItemsOrdered().lastIndexOf(menuItem));
         }
     }

@@ -54,6 +54,24 @@ the job of restaurant waiters, such as my family.
 - you can save the state of my application at startup by pressing "yes" to the "Do you want to load the saved restaurant" prompt or by pressing the "save" button in the toolbar on the left, which appears as an arrow pointing down
 - you can reload the state of my application by pressing the "load" button in the toolbar on the left, which appears as an arrow pointing up
 
+## Phase 4: Task 2
+
+Mon Aug 07 01:09:54 PDT 2023
+Added Table 1 to the restaurant
+
+Mon Aug 07 01:09:59 PDT 2023
+Added Fried Rice to Table 1 order
+
+Mon Aug 07 01:10:01 PDT 2023
+Added Chow Mein to Table 1 order
+
+Mon Aug 07 01:10:03 PDT 2023
+Removed Fried Rice from Table 1 order
+
+Mon Aug 07 01:10:04 PDT 2023
+Removed Table 1 from the restaurant
+
+
 ## References
 - JsonSerializationDemo-master provided by CPSC 210 edX as reference for the JSON writing/reading functionality
 - icons from *Softy: Squaries 64px* by Gregor Cresnar accessed at https://thenounproject.com/grega.cresnar/

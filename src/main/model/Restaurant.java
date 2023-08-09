@@ -39,13 +39,16 @@ public class Restaurant implements Writable {
     // MODIFIES: this
     // EFFECTS: adds another table to the restaurant
     public void addTable() {
-        restaurantTables.add(new Table(restaurantTables.size() + 1));
+        restaurantTables.add(new Table(getNumberOfTables() + 1));
+        EventLog.getInstance().logEvent(new Event("Added Table " + getNumberOfTables() + " to the restaurant"));
     }
 
     // MODIFIES: this
     // EFFECTS: removes the last table of the restaurant
     public void removeTable() {
-        restaurantTables.remove(this.getNumberOfTables() - 1);
+        restaurantTables.remove(getNumberOfTables() - 1);
+        EventLog.getInstance().logEvent(new Event("Removed Table " + (getNumberOfTables() + 1)
+                + " from the restaurant"));
     }
 
     // REQUIRES: n > 0

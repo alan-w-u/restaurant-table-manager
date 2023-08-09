@@ -4,19 +4,17 @@ import model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
 // Represents the view of all the tables in the restaurant
-public class RestaurantView extends JPanel implements ActionListener {
+public class RestaurantView extends JPanel {
     private RestaurantTableManagerGUI rtm;
     private Restaurant restaurant;
     private List<TableIcon> tableIcons;
 
-    private JPanel restaurantView;
     private GridBagConstraints constraints;
+    private JPanel restaurantView;
 
     private static final int ROW_MAX = 5;
 
@@ -73,12 +71,5 @@ public class RestaurantView extends JPanel implements ActionListener {
 
             restaurantView.add(label);
         }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: selects the table to be edited
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
     }
 }

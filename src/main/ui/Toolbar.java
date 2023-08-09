@@ -1,23 +1,15 @@
 package ui;
 
 import model.*;
-import persistence.JsonReader;
-import persistence.JsonWriter;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 // Represents the Toolbar
 public class Toolbar extends JPanel implements ActionListener {
     private RestaurantTableManagerGUI rtm;
     private Restaurant restaurant;
-
-    private static final String JSON_LOCATION = "./data/restaurant.json";
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
 
     private JToolBar toolbar;
     private JButton saveButton = new JButton(new ImageIcon("data/icons/save.png"));
@@ -31,9 +23,6 @@ public class Toolbar extends JPanel implements ActionListener {
         this.rtm = rtm;
         this.restaurant = restaurant;
         toolbar = new JToolBar("Toolbar");
-
-        jsonWriter = new JsonWriter(JSON_LOCATION);
-        jsonReader = new JsonReader(JSON_LOCATION);
 
         initializeToolbar();
         displayToolbar();
