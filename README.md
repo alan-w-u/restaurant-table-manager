@@ -39,3 +39,5 @@ the job of restaurant waiters, such as my family.
 ## References
 - JsonSerializationDemo-master provided by CPSC 210 edX as reference for the JSON writing/reading functionality
 - icons from *Softy: Squaries 64px* by Gregor Cresnar accessed at https://thenounproject.com/grega.cresnar/
+
+![Example](data/Example.png)
