@@ -40,4 +40,6 @@ the job of restaurant waiters, such as my family.
 - JsonSerializationDemo-master provided by UBC CPSC 210 used as a reference for the JSON reading/writing functionality
 - icons from *Softy: Squaries 64px* by Gregor Cresnar accessed at https://thenounproject.com/grega.cresnar/
 
-![Example](data/example.png)
+## Images
+
+![image](data/example.png)
